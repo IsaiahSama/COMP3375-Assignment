@@ -1,16 +1,31 @@
 """This will be the main entry point for the server."""
-
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import dotenv_values
+from pymongo import MongoClient
+
+config = dotenv_values(".env")
 
 try:
     from .routers import htmx
 except ImportError:
     from routers import htmx
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for the FastAPI app."""
+    """Connect to the database."""
+    app.mongodb_client = MongoClient(config["MONGO_URI"])
+    app.mongodb = app.mongodb_client[config["MONGO_DB_NAME"]]
+    yield
+    # Close the database connection when the app is shutting down
+    if hasattr(app, "mongodb_client"):
+        app.mongodb_client.close()
+
+app = FastAPI(lifespan=lifespan)
 
 templates = Jinja2Templates(directory="templates")
 
