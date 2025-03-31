@@ -5,7 +5,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import htmx
+try:
+    from .routers import htmx
+except ImportError:
+    from routers import htmx
 
 app = FastAPI()
 
