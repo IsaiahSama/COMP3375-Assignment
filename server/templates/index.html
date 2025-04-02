@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}
-Home
+Dashboard
 {% endblock %}
 
 {% block content %}
+<div id="title">
+    <h1>DashBoard</h1> 
+    <button>View Reports</button>
+</div>
 
-<h1>Welcome to the home page</h1>
-
-<p>Below is some text from the server!</p>
-
-<span>{{ text }}</span>
-
-<p>Here's some more text from the server, but from HTMX!</p>
-
-<span hx-get="/htmx/hello" hx-trigger="load"></span>
+<div id="mapContainer" style="max-width: 70%; margin: 0 auto">
+    <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
+</div>
 
 {% endblock %}
