@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Report
+{% endblock %}
+
+{% block content %}
+
+<div id="centerContainer">
+    <h1>Delete Report</h1>
+
+    <p>Are you sure you want to delete this report?</p>
+
+    <div id="report">
+        This report will be loaded from component (Probably)
+    </div>
+
+    <div id="buttons">
+        <button id="cancelButton">Cancel</button>
+        <button id="actionButton" hx-delete="/reports/delete">Delete</button>
+    </div>
+
+</div>
+
+{% endblock %}

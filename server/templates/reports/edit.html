@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Report
+{% endblock %}
+
+{% block content %}
+
+<div id="centerContainer">
+    <form action="">
+        <div id="titleBar">
+            <h1>Edit Report</h1>
+            <button id="saveButton">Save</button>
+        </div>
+
+
+        <div id="formBox">
+            <p id="id">ID: {{ report and report.id or "N/A" }}</p>
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="image" width="150" height="150" style="object-fit: contain">
+
+            <p id="location">Location: {{ report and report.location or "N/A" }}</p>
+            <div id="locationPin">
+                <!-- Some map thing  -->
+            </div>
+            <div id="dropdowns">
+                <div id="status">
+                    <label for="status">Status</label>
+                    <select name="status" id="status">
+                        <option value="reported">Reported</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="complete">Complete</option>
+                    </select>
+                </div>
+                <div id="severity">
+                    <label for="severity">Severity</label>
+                    <select name="severity" id="severity">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
