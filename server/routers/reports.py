@@ -13,19 +13,19 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    return templates.TemplateResponse("user/report.html", context={"request": request})
+    return templates.TemplateResponse("reports/report.html", context={"request": request})
 
 @router.get("/edit")
 async def edit_report_page(request: Request):
-    return templates.TemplateResponse("user/edit.html", context={"request": request})
+    return templates.TemplateResponse("reports/edit.html", context={"request": request})
 
 @router.get("/create")
 async def create_report_page(request: Request):
-    return templates.TemplateResponse("user/create.html", context={"request": request})
+    return templates.TemplateResponse("reports/create.html", context={"request": request})
 
 @router.get("/delete")
 async def delete_report_page(request: Request):
-    return templates.TemplateResponse("user/delete.html", context={"request": request})
+    return templates.TemplateResponse("reports/delete.html", context={"request": request})
 
 
 class ReportCreateForm(BaseModel):
