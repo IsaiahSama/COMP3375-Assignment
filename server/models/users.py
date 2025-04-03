@@ -1,7 +1,11 @@
 import uuid
 from typing import Optional, Annotated
 from pydantic import BaseModel, Field
-from enums import Roles
+
+try:
+    from .enums import Roles
+except ImportError:
+    from enums import Roles
 
 class User(BaseModel):
     id: Annotated[int, Field(default_factory=lambda: uuid.uuid4().int, description="User ID")]

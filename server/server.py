@@ -10,9 +10,9 @@ from pymongo import MongoClient
 config = dotenv_values(".env")
 
 try:
-    from .routers import htmx
+    from .routers import htmx, users, reports
 except ImportError:
-    from routers import htmx
+    from routers import htmx, users, reports
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,7 +25,8 @@ async def lifespan(app: FastAPI):
     if hasattr(app, "mongodb_client"):
         app.mongodb_client.close()
 
-app = FastAPI(lifespan=lifespan)
+# app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
 
@@ -40,6 +41,8 @@ app.add_middleware(
 )
 
 app.include_router(htmx.router)
+app.include_router(users.router)
+app.include_router(reports.router)
 
 
 @app.get("/")
