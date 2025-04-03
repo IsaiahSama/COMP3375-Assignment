@@ -9,23 +9,23 @@ from server.models.enums import Severity
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
-templates = Jinja2Templates(directory="templates/reports")
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    return templates.TemplateResponse("report.html", context={"request": request})
+    return templates.TemplateResponse("user/report.html", context={"request": request})
 
 @router.get("/edit")
 async def edit_report_page(request: Request):
-    return templates.TemplateResponse("edit.html", context={"request": request})
+    return templates.TemplateResponse("user/edit.html", context={"request": request})
 
 @router.get("/create")
 async def create_report_page(request: Request):
-    return templates.TemplateResponse("create.html", context={"request": request})
+    return templates.TemplateResponse("user/create.html", context={"request": request})
 
 @router.get("/delete")
 async def delete_report_page(request: Request):
-    return templates.TemplateResponse("delete.html", context={"request": request})
+    return templates.TemplateResponse("user/delete.html", context={"request": request})
 
 
 class ReportCreateForm(BaseModel):
