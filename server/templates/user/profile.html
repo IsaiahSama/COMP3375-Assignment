@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<div id="nameBar">
+    <div id="infoContainer">
+        <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
+        <div id="nameInfo">
+            <h1>John Doe</h1>
+            <p>Pothole Patroller</p>
+        </div>
+    </div>
+</div>
+
+<div id="background">
+    <div id="box">
+        <img src="{{ url_for('static', path='/images/logo.png') }}" alt="logo" width="84" height="140" style="object-fit: contain">
+        <p>Thank you for making our community better!</p>
+    </div>
+
+    <button hx-get="/logout" >Log Out</button>
+</div>
+
+{% endblock %}
