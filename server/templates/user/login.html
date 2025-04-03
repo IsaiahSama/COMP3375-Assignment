@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+    <div id="background">
+        <div id="box">
+            <div id="box-header">
+                <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="84" height="140"
+                    style="object-fit: contain">
+                <p>Login</p>
+            </div>
+            <div id="errorMessage" color="red">{{ error }}</div>
+            <div id="box-content">
+                <form method="POST" action="/login">
+                    <div>
+                        <label for="email">Email <span style="color: red">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div>
+                        <label for="password">Password <span style="color: red">*</span></label>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <input type="submit" value="Login">
+                </form>
+                <p>Don't have an account? <a href="/register">Register here.</a></p>
+                <p>or</p>
+                <button id="google">Continue with Google</button>
+        </div>
+    </div>
+
+{% endblock %}
