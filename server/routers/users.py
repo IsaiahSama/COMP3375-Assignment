@@ -4,20 +4,20 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from server.models.users import User
 
-templates = Jinja2Templates(directory="templates/user")
-router = APIRouter(prefix="/user", tags=["User"])
+templates = Jinja2Templates(directory="templates")
+router = APIRouter(tags=["User"])
 
 @router.get("/login")
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", context={"request": request})
+    return templates.TemplateResponse("user/login.html", context={"request": request})
 
 @router.get("/register")
 async def register_page(request: Request):
-    return templates.TemplateResponse("register.html", context={"request": request})
+    return templates.TemplateResponse("user/register.html", context={"request": request})
 
 @router.get("/profile")
 async def profile_page(request: Request):
-    return templates.TemplateResponse("profile.html", context={"request": request})
+    return templates.TemplateResponse("user/profile.html", context={"request": request})
 
 @router.get("/logout")
 async def logout_page(request: Request):
