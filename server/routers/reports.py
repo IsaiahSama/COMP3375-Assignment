@@ -51,3 +51,11 @@ async def create_report_endpoint(request: Request, report: Annotated[ReportCreat
     report.severity = ReportCreateForm.severity
     create_report(report)
     return HTMLResponse(content=f"Report {report} created!", status_code=200)
+
+@router.put("/edit")
+async def edit_report(request: Request):
+    pass 
+
+@router.delete("/delete")
+async def delete_report(request: Request):
+    pass
