@@ -1,9 +1,27 @@
 from typing import Annotated
 from fastapi import APIRouter, Request, Form
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from server.models.users import User
 
-router = APIRouter(prefix="/users", tags=["Users"])
+templates = Jinja2Templates(directory="templates/user")
+router = APIRouter(prefix="/user", tags=["User"])
+
+@router.get("/login")
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", context={"request": request})
+
+@router.get("/register")
+async def register_page(request: Request):
+    return templates.TemplateResponse("register.html", context={"request": request})
+
+@router.get("/profile")
+async def profile_page(request: Request):
+    return templates.TemplateResponse("profile.html", context={"request": request})
+
+@router.get("/logout")
+async def logout_page(request: Request):
+    return templates.TemplateResponse("logout.html", context={"request": request})
 
 class LoginForm(BaseModel):
     email: str
