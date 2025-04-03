@@ -10,9 +10,9 @@ from pymongo import MongoClient
 config = dotenv_values(".env")
 
 try:
-    from .routers import htmx, users
+    from .routers import htmx, users, reports
 except ImportError:
-    from routers import htmx, users
+    from routers import htmx, users, reports
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -42,6 +42,7 @@ app.add_middleware(
 
 app.include_router(htmx.router)
 app.include_router(users.router)
+app.include_router(reports.router)
 
 
 @app.get("/")
