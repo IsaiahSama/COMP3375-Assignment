@@ -5,4 +5,4 @@
 1. Run `python -m venv .venv` to create a virtual environment.
 1. Activate it with `.venv/Scripts/activate` (assuming you are using Powershell)
 1. Install packages with `pip install -r requirements.txt`
-1. Run the server with `python server.py`
+1. Run the server with `fastapi dev server.py`
