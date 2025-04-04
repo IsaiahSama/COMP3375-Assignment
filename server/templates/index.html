@@ -4,14 +4,36 @@
 Dashboard
 {% endblock %}
 
+
+{% block styles %}
+
+<style>
+
+    #titleBar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #mapContainer {
+        background-color: #6FCBF5;
+    }
+
+</style>
+
+{% endblock %}
+
 {% block content %}
+
 <div id="titleBar">
     <h1>DashBoard</h1> 
-    <button>View Reports</button>
+    <div>
+        <button>View Reports</button>
+    </div>
 </div>
 
-<div id="mapContainer" style="max-width: 70%; margin: 0 auto">
-    <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
+<div id="mapContainer" style="max-width: 100%; margin: 0 auto">
+    <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="1146px" height="659px" style="object-fit: contain" >
 </div>
 
 {% endblock %}
