@@ -11,13 +11,13 @@ Create Report
 
     <form action="">
 
-        <div id="formBox">
+        <div id="formBox" hx-get="/htmx/report/image-upload" hx-swap="innerHTML" hx-trigger="load">
             <!-- This will be populated as a component -->
         </div>
 
         <div id="buttons">
             <button id="cancelButton">Cancel</button>
-            <button id="actionButton">Next</button>
+            <button id="actionButton" hx-get="/htmx/report/location-upload" hx-target="#formBox">Next</button>
         </div>
     </form>
 
