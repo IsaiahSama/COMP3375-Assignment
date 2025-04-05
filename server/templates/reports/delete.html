@@ -22,4 +22,22 @@ Delete Report
 
 </div>
 
+
+<script>
+document.body.addEventListener('htmx:afterRequest', function(event) {
+    // Check if this is our delete request
+    if (event.detail.elt.id === 'actionButton') {
+        if (event.detail.successful) {
+            // Successful deletion - redirect to home
+            window.location.href = '/';
+        } else {
+            // Failed deletion - show error and redirect to reports
+            const error = event.detail.xhr.responseText || 'Failed to delete report';
+            alert(error);
+            window.location.href = '/reports';
+        }
+    }
+});
+</script>
+
 {% endblock %}
