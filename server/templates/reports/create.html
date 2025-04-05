@@ -30,8 +30,7 @@ const actionButton = document.getElementById("actionButton")
 const nextReq = document.getElementById('locationUploadForm')
 
 const handleInitialSubmit = (event) => {
-    
-    if (event.detail.successful) {
+    if (event.detail.successful && event.detail.requestConfig.method === 'POST') {
 
         actionButton.textContent = "Submit"
 
@@ -45,7 +44,7 @@ const handleInitialSubmit = (event) => {
 
 const handleLocationSubmit = (event) => {
 
-    if (event.detail.successful) {
+    if (event.detail.successful && event.detail.requestConfig.method === "POST") {
         nextReq.setAttribute('hx-get', '/htmx/report/success')
 
         document.getElementById('buttons').innerHTML = "<a href='/'> <button> Return Home </button> </a>"
