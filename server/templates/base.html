@@ -4,44 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5">
     <link rel="stylesheet" href="{{ url_for('static', path='/styles/output.css') }}">
     <script src="{{ url_for('static', path='/scripts/htmx.min.js') }}"></script>
     <title>COMP3375 Assignment 2 - {% block title %}{% endblock %}</title>
-
-<style>
-
-    nav {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    nav a {
-        color: black;
-        text-decoration: none;
-    }
-
-
-    #brand {
-        flex: 3;
-    }
-
-    #brand a{
-        display: flex;
-    }
-
-    #menu {
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        flex: 1;
-    }
-
-    #mainSection {
-        margin: 0 auto;
-        max-width: 90%;
-    }
-
-</style>
 
 {% block styles %}
 
@@ -50,28 +16,27 @@
 </head>
 
 <body>
-    <header>
-        <nav>
+    <header id="header" class="md:p-4">
+        <nav class="flex justify-between p-5">
             <div id="brand">
-                <a href="/">
+                <a href="/" class="flex items-center gap-2 text-black text-decoration-none">
                     <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="42" height="70"
                         style="object-fit: contain">
-                    <h1>Pothole Patrol</h1>
+                    <h1 class="md:text-2xl font-semibold">Pothole Patrol</h1>
                 </a>
             </div>
-            <div id="menu">
+            <div id="menu" class="flex items-center justify-between gap-8">
                 <a href="/">Home</a>
                 <a href="/reports">Reports</a>
                 <a href="/profile">
                     <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
-
                 </a>
             </div>
         </nav>
     </header>
 
     <section id="mainSection" class="section">
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
     </section>
 
 </body>

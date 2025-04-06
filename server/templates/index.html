@@ -7,33 +7,25 @@ Dashboard
 
 {% block styles %}
 
-<style>
-
-    #titleBar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    #mapContainer {
-        background-color: #6FCBF5;
-    }
-
-</style>
-
 {% endblock %}
 
 {% block content %}
 
-<div id="titleBar">
-    <h1>DashBoard</h1> 
-    <div>
-        <a href="/reports"><button>View Reports</button></a>
+<div id="centerContainer" class="flex flex-col items-center mt-5 ">
+    <div class = "lg:max-w-[75vw] max-w-[90vw] flex flex-col items-center">
+        <div id="titleBar" class="flex justify-between items-center pb-5 w-full">
+            <h1 class="text-2xl font-bold">DashBoard</h1> 
+            <div class="flex">
+                <a href="/reports">
+                    <button class="button px-4 py-1 bg-[var(--blue-primary)] text-white rounded-md">View Reports</button>
+                </a>
+            </div>
+        </div>
+        
+        <div id="mapContainer" class="flex lg:max-h-[75vh] md:max-h-[80vh] max-h-[90vh] justify-center rounded-xl bg-[var(--blue-accent)]"">
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" style="object-fit: contain" >
+        </div>
     </div>
-</div>
-
-<div id="mapContainer" style="max-width: 100%; margin: 0 auto">
-    <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="1146px" height="659px" style="object-fit: contain" >
 </div>
 
 {% endblock %}
