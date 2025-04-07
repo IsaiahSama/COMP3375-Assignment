@@ -16,20 +16,20 @@
 </head>
 
 <body>
-    <header id="header" class="md:p-4">
-        <nav class="flex justify-between p-5">
+    <header id="header" class="md:p-4 md:px-8 py-4">
+        <nav class="flex justify-between px-5">
             <div id="brand">
                 <a href="/" class="flex items-center gap-2 text-black text-decoration-none">
-                    <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="42" height="70"
+                    <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="35" height="35"
                         style="object-fit: contain">
-                    <h1 class="md:text-2xl font-semibold">Pothole Patrol</h1>
+                    <h1 class="md:text-lg font-semibold">Pothole Patrol</h1>
                 </a>
             </div>
-            <div id="menu" class="flex items-center justify-between gap-8">
+            <div id="menu" class="flex items-center justify-between gap-8 hidden lg:flex">
                 <a href="/">Home</a>
                 <a href="/reports">Reports</a>
                 <a href="/profile">
-                    <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
+                    <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="35" height="35" />
                 </a>
             </div>
         </nav>

@@ -11,19 +11,19 @@ Dashboard
 
 {% block content %}
 
-<div id="centerContainer" class="flex flex-col items-center mt-5 ">
-    <div class = "lg:max-w-[75vw] max-w-[90vw] flex flex-col items-center">
+<div id="centerContainer" class="flex flex-col items-center mt-5">
+    <div class = "md:w-[75vw] w-[90vw] flex flex-col items-center pt-8 md:pt-5">
         <div id="titleBar" class="flex justify-between items-center pb-5 w-full">
             <h1 class="text-2xl font-bold">DashBoard</h1> 
             <div class="flex">
                 <a href="/reports">
-                    <button class="button px-4 py-1 bg-[var(--blue-primary)] text-white rounded-md">View Reports</button>
+                    <button class="button px-4 py-1 bg-[var(--blue-primary)] text-white rounded-sm">View Reports</button>
                 </a>
             </div>
         </div>
         
-        <div id="mapContainer" class="flex lg:max-h-[75vh] md:max-h-[80vh] max-h-[90vh] justify-center rounded-xl bg-[var(--blue-accent)]"">
-            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" style="object-fit: contain" >
+        <div id="mapContainer" class="flex h-[70vh] w-full justify-center rounded-xl bg-[var(--blue-accent)]">
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" style="object-fit: contain" height="100%" width="100%">
         </div>
     </div>
 </div>
