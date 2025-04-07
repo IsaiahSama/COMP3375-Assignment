@@ -29,34 +29,44 @@ Reports
 
 {% block content %}
 
-<div id="titleBar">
-    <h1>My Reports</h1>
-    <a href="/reports/create" ><button>New Report</button></a>
-</div>
-
-<div id="searchBar">
-    <!-- Once route is defined, add the hx-get for the report filter -->
-    <input type="text" name="search" id="search" placeholder="Search" hx-target="#reports" hx-trigger="keyup"> 
-</div>
-
-<div id="reports">
-
-    {% for report in reports %}
-    <div class="report">
-        <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
-        <div class="reportInfo">
-            <div class="report line1">
-                <h2>{{ report.id }}</h2>
-            </div>
-            <p>Status: {{ report.status }}</p>
-            <div class="report line3">
-                <p>{{ report.date }}</p>
-                <p>P-13</p>
+<div class="flex flex-col items-center p-8 mt-5 md:w-[75vw] w-[90vw]">
+    <div id="titleBar" class="flex justify-between items-center pb-5 w-full">
+        <h1 class="text-2xl font-bold">My Reports</h1>
+        <a href="/reports/create" >
+            <button class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm hidden md:block">New Report</button>
+        </a>
+    </div>
+    
+    <div id="searchBar">
+        <!-- Once route is defined, add the hx-get for the report filter -->
+        <input type="text" name="search" id="search" placeholder="Search" hx-target="#reports" hx-trigger="keyup"> 
+    </div>
+    
+    <div id="reports" class="flex flex-col gap-5 mt-5 min-h-[65vh]">
+        {% if reports | length == 0 %}
+        <p class="text-center text-lg font-semibold text-gray-500 mt-8 pt-8">No Reports Found</p>
+        {% endif %}
+        {% for report in reports %}
+        <div class="report">
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
+            <div class="reportInfo">
+                <div class="report line1">
+                    <h2>{{ report.id }}</h2>
+                </div>
+                <p>Status: {{ report.status }}</p>
+                <div class="report line3">
+                    <p>{{ report.date }}</p>
+                    <p>P-13</p>
+                </div>
             </div>
         </div>
+        {% endfor %}
+    
     </div>
-    {% endfor %}
 
+    <a href="/reports/create" class="w-full">
+        <button class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm md:hidden block w-full">New Report</button>
+    </a>
 </div>
 
 {% endblock %}
