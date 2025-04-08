@@ -17,9 +17,9 @@ Profile
 </div>
 
 <div id="background" class="flex flex-col items-center gap-5 mt-8 w-[80vw] lg:w-[55vw]">
-    <div id="box" class="flex flex-col items-center justify-center bg-gray-100 shadow md:min-h-[50vh] min-h-[40vh] md:w-full w-[80vw] p-8">
+    <div id="box" class="flex flex-col items-center justify-center bg-gray-100 rounded-xl drop-shadow-xl md:min-h-[50vh] min-h-[40vh] md:w-full w-[80vw] p-8">
         <img src="{{ url_for('static', path='/images/logo.png') }}" alt="logo" width="200" height="200" style="object-fit: contain">
-        <p class="md:text-xl text-lg font-semibold text-center mt-4 md:w-[35vw] lg:w-[15vw]">Thank you for making our community better!</p>
+        <p class="md:text-xl text-lg font-semibold text-center mt-4 md:w-[35vw]">Thank you for making our <br> community better!</p>
     </div>
 
     <button hx-get="/logout" class="button mt-5 px-5 py-3 bg-[var(--blue-primary)] text-white rounded-sm lg:w-[15vw] w-[80vw]">Log Out</button>

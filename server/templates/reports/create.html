@@ -6,8 +6,8 @@ Create Report
 
 {% block content %}
 
-<div id="centerContainer">
-    <h1>Create Report</h1>
+<div id="centerContainer" class="flex flex-col items-center mt-5">
+    <h1 class="md:text-4xl text-2xl font-bold">New Report</h1>
 
     <form action="">
 
@@ -15,9 +15,9 @@ Create Report
             <!-- This will be populated as a component -->
         </div>
 
-        <div id="buttons">
-            <button id="cancelButton">Cancel</button>
-            <button id="actionButton" hx-post="/report/image-upload">Next</button>
+        <div id="buttons" class="flex gap-8 mt-5 lg:w-[30vw] md:w-[60vw] w-[80vw] justify-between">
+            <button id="cancelButton" class="bg-gray-200 text-gray-600 px-5 py-1 rounded-sm w-1/2">Cancel</button>
+            <button id="actionButton" hx-post="/report/image-upload" class="bg-[var(--blue-primary)] text-white px-5 py-1 rounded-sm w-1/2">Next</button>
         </div>
     </form>
 

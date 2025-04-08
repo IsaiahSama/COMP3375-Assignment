@@ -6,32 +6,32 @@ Login
 
 {% block content %}
 
-    <div id="background" class="flex items-center justify-center bg-[url('/static/images/login.jpeg')] bg-cover bg-center w-full h-[94vh]">
-        <div id="box" class="flex flex-col items-center bg-white rounded-xl shadow p-8 lg:min-w-[25vw] md:min-w-[60vw] min-w-[85vw] md:min-h-[50vh] min-h-[65vh]">
+    <div id="background" class="flex items-center justify-center bg-[url('/static/images/login.jpeg')] bg-cover bg-center w-full h-[92vh]">
+        <div id="box" class="flex flex-col items-center bg-white rounded-xl shadow-xl p-8 lg:min-w-[28vw] md:min-w-[60vw] min-w-[85vw] md:min-h-[50vh] min-h-[65vh]">
             <div id="box-header" class="flex flex-col items-center gap-2 mt-2">
                 <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="80" height="100"
                     style="object-fit: contain">
                 <p class="text-3xl font-bold">Login</p>
             </div>
 
-            <div id="errorMessage" class="font-semibold text-red-500 h-5 text-center">{{ error }}</div>
+            <div id="errorMessage" class="font-semibold text-red-500 h-3 text-center">{{ error }}</div>
            
             <div id="box-content" class="flex flex-col items-center gap-2 w-full md:p-5">
                 <form method="POST" action="/login" class="flex flex-col w-full gap-4">
+                    <!-- Email -->
                     <div class="flex flex-col gap-2 my-1">
                         <label for="email">Email <span class="text-red-500 font-semibold">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="Email" required autofocus autocomplete="email"
-                            class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-3">
+                        <input type="email" id="email" name="email" placeholder="Email" required autofocus autocomplete="email" class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-3">
                     </div>
 
+                    <!-- Password -->
                     <div class="flex flex-col gap-2">
                         <label for="password">Password <span class="text-red-500 font-semibold">*</span></label>
-                        <input type="password" id="password" name="password" placeholder="Password" required 
-                        class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-3">
+                        <input type="password" id="password" name="password" placeholder="Password" required class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-3">
                     </div>
 
-                    <input type="submit" value="Log In" class="button py-3 mt-3 bg-[var(--blue-primary)] text-white text-lg rounded-sm w-full">
-                </form>
+                    <input type="submit" value="Log In" class="button py-2 mt-3 bg-[var(--blue-primary)] text-white text-lg rounded-sm w-full">
+                </form>  
 
                 <div id="box-footer" class="flex flex-col items-center mt-3 gap-2 w-full">
                     <button id="google" class="flex items-center justify-center gap-2 button py-2 border border-[var(--blue-primary)] text-lg rounded-sm w-full">
