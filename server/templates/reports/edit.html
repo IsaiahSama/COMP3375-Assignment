@@ -7,23 +7,23 @@ Edit Report
 {% block content %}
 
 <div id="centerContainer">
-    <form action="">
-        <div id="titleBar">
-            <h1>Edit Report</h1>
-            <button id="saveButton" type="submit" >Save</button>
+    <form action="" class="flex flex-col justify-center lg:min-w-[50vw] md:min-w-[60vw] min-w-[80vw]">
+        <div id="titleBar" class="flex justify-between items-center pb-5 w-full mt-5">
+            <h1 class="md:text-4xl text-2xl font-bold">Edit Report</h1>
+            <button id="saveButton" type="submit" class="bg-[var(--blue-primary)] text-white px-5 py-1 rounded-sm">Save</button>
         </div>
 
 
-        <div id="formBox">
-            <p id="id">ID: {{ report and report.id or "N/A" }}</p>
-            <img src="{{ url_for('static', path='/images/map.png') }}" alt="image" width="150" height="150" style="object-fit: contain">
+        <div id="formBox" class="flex flex-col items-center bg-gray-100 rounded-xl p-8 min-h-[60vh]">
+            <p id="id" class="mb-2">ID: {{ report and report.id or "N/A" }}</p>
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="image" width="100" height="100" style="object-fit: contain" class="rounded-xl">
 
-            <p id="location">Location: {{ report and report.location or "N/A" }}</p>
+            <p id="location" class="mt-2">Location: {{ report and report.location or "N/A" }}</p>
             <div id="locationPin">
                 <!-- Some map thing  -->
             </div>
-            <div id="dropdowns">
-                <div id="status">
+            <div id="dropdowns" class="flex gap-8 mt-8 justify-between">
+                <div id="status" class="flex flex-col">
                     <label for="status">Status</label>
                     <select name="status" id="status">
                         <option value="reported">Reported</option>
@@ -31,7 +31,7 @@ Edit Report
                         <option value="complete">Complete</option>
                     </select>
                 </div>
-                <div id="severity">
+                <div id="severity" class="flex flex-col">
                     <label for="severity">Severity</label>
                     <select name="severity" id="severity">
                         <option value="low">Low</option>
