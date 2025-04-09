@@ -6,23 +6,24 @@ Delete Report
 
 {% block content %}
 
-<div id="centerContainer" class="flex flex-col items-center mt-5">
-    <h1 class="md:text-4xl text-2xl font-bold">Delete Report</h1>
-    
-    <div id="box" class="flex flex-col items-center shadow justify-center bg-gray-100 rounded-xl p-8 mt-5">
-        <p class="text-lg font-semibold mb-2">Are you sure you want to delete this report?</p>
-        <img src="{{ url_for('static', path='/images/delete.png') }}" alt="logo" width="150" height="150" style="object-fit: contain">
+<div id="centerContainer" class="flex flex-col items-center md:mt-5 mt-8 ">
+    <div class="flex flex-col items-center md:w-[75vw] w-[90vw] lg:mt-0 mt-5">
+        <h1 class="md:text-4xl text-2xl font-bold">Delete Report</h1>
+        
+        <div id="box" class="flex flex-col items-center shadow bg-gray-100 gap-5 rounded-xl md:px-8 px-4 p-8 mt-5 md:min-w-[50vw] min-w-[80vw] md:min-h-[40vh] min-h-[45vh]">
+            <p class="text-lg font-semibold mb-2 text-center p-4">Are you sure you want to delete this report?</p>
+            <img src="{{ url_for('static', path='/images/delete.png') }}" alt="logo" width="150" height="150" style="object-fit: contain">
 
-        <div id="report">
-            This report will be loaded from component (Probably)
+            <div id="report" class="text-center">
+                This report will be loaded from component (Probably)
+            </div>
+
         </div>
-
-        <div id="buttons" class="flex gap-8 mt-8 lg:w-[30vw] md:w-[60vw] w-[80vw] justify-between">
-            <button id="cancelButton" class="bg-gray-200 text-gray-600 px-5 py-1 rounded-sm w-1/2">Cancel</button>
-            <button id="actionButton" hx-delete="/reports/delete" class="bg-red-600 text-white px-5 py-1 rounded-sm w-1/2">Delete</button>
-        </div>
-   </div>
-
+    </div>
+    <div id="buttons" class="flex gap-8 mt-8 lg:min-w-[30vw] md:min-w-[60vw] min-w-[80vw] justify-between">
+        <button id="cancelButton" class="bg-gray-200 text-gray-600 px-5 py-1 rounded-sm w-1/2">Cancel</button>
+        <button id="actionButton" hx-delete="/reports/delete" class="bg-red-600 text-white px-5 py-1 rounded-sm w-1/2">Delete</button>
+    </div>
 </div>
 
 
