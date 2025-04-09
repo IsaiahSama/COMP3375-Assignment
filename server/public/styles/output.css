@@ -699,6 +699,11 @@
       margin-top: calc(var(--spacing) * 0);
     }
   }
+  .lg\:mt-5 {
+    @media (width >= 64rem) {
+      margin-top: calc(var(--spacing) * 5);
+    }
+  }
   .lg\:block {
     @media (width >= 64rem) {
       display: block;
