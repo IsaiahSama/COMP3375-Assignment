@@ -6,37 +6,51 @@ Register
 
 {% block content %}
 
-    <div id="background">
-        <div id="box">
-            <div id="box-header">
-                <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="84" height="140"
+    <div id="background" class="flex items-center justify-center bg-[url('/static/images/login.jpeg')] bg-cover bg-center w-full h-[92vh]"">
+        <div id="box" class="flex flex-col items-center bg-white rounded-xl shadow-xl p-8 py-4 lg:min-w-[28vw] md:min-w-[60vw] min-w-[85vw] md:min-h-[50vh] min-h-[65vh]">
+            <div id="box-header" class="flex flex-col items-center gap-2 mt-2">
+                <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="80" height="100"
                     style="object-fit: contain">
-                <p>Register</p>
+                <p class="text-3xl font-bold">Register</p>
             </div>
-            <div id="errorMessage" color="red">{{ error }}</div>
-            <div id="box-content">
-                <form method="POST" action="/register">
-                    <div>
-                        <label for="firstname">First Name <span style="color: red">*</span></label>
-                        <input type="text" id="firstname" name="firstname" placeholder="First Name" required>
+
+            <div id="errorMessage" class="font-semibold text-red-500 h-3 text-center">{{ error }}</div>
+            
+            <div id="box-content"  class="flex flex-col items-center gap-2 w-full md:p-5">
+                <form method="POST" action="/register" class="flex flex-col w-full gap-4">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- First Name -->
+                        <div class="flex flex-col gap-2 md:w-1/2">
+                            <label for="firstname">First Name <span class="text-red-500 font-semibold">*</span></label>
+                            <input type="text" id="firstname" name="firstname" placeholder="First Name" required class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-2">
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="flex flex-col gap-2 md:w-1/2">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Last Name" class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-2">
+                        </div>
                     </div>
-                    <div>
-                        <label for="lastname">Last Name</label>
-                        <input type="text" id="lastname" name="lastname" placeholder="Last Name">
+
+                    <!-- Email -->
+                    <div class="flex flex-col gap-2">
+                        <label for="email">Email <span class="text-red-500 font-semibold">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Email" required class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-2">
                     </div>
-                    <div>
-                        <label for="email">Email <span style="color: red">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="Email" required>
+
+                    <!-- Password -->
+                    <div class="flex flex-col gap-2">
+                        <label for="password">Password <span class="text-red-500 font-semibold">*</span></label>
+                        <input type="password" id="password" name="password" placeholder="Password" required class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-2">
                     </div>
-                    <div>
-                        <label for="password">Password <span style="color: red">*</span></label>
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                    </div>
-                    <input type="submit" value="Register">
+
+                    <input type="submit" value="Sign Up" class="button py-2 mt-3 bg-[var(--blue-primary)] text-white text-lg rounded-sm w-full">
+                    <button id="google" class="flex items-center justify-center gap-2 button py-2 border border-[var(--blue-primary)] text-lg rounded-sm w-full">
+                        <img src="{{ url_for('static', path='/images/google.png') }}" alt="Google" width="30" height="30">
+                        Continue with Google
+                    </button>
                 </form>
-                <p>Already have an account? <a href="/login">Login here.</a></p>
-                <p>or</p>
-                <button id="google">Continue with Google</button>
+                <p>Already have an account? <a href="/login" class="text-[var(--blue-primary)]">Login</a></p>
         </div>
     </div>
 
