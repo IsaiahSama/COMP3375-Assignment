@@ -8,6 +8,7 @@ email_validator==2.2.0
 fastapi==0.115.12
 fastapi-cli==0.0.7
 fastapi-tailwind==2.0.3a1
+fastapi-tailwind==2.0.3a1
 h11==0.14.0
 httpcore==1.0.7
 httptools==0.6.4
@@ -25,6 +26,7 @@ pydantic-settings==2.8.1
 pydantic_core==2.33.0
 Pygments==2.19.1
 pymongo==4.11.3
+pymongo==4.11.3
 python-dotenv==1.1.0
 python-multipart==0.0.20
 PyYAML==6.0.2
@@ -38,6 +40,7 @@ typing-inspection==0.4.0
 typing_extensions==4.13.0
 ujson==5.10.0
 uvicorn==0.34.0
+uvloop==0.21.0
 uvloop==0.21.0
 watchfiles==1.0.4
 websockets==15.0.1
