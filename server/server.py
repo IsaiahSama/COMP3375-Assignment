@@ -7,12 +7,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi_tailwind import tailwind
 
-from dotenv import dotenv_values
+
+from server import config
 from pymongo import MongoClient
 
 from os import path
-
-config = dotenv_values(".env")
 
 try:
     from .routers import htmx, users, reports
