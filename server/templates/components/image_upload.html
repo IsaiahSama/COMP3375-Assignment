@@ -1,0 +1,7 @@
+<button  onclick="document.getElementById('fileInput').click()" class="flex flex-col items-center md:min-h-[60vh] min-h-[50vh] md:w-full w-[80vw] mt-5 bg-gray-100 border-3 border-gray-200 border-dashed rounded-xl p-8">
+    <img src="{{ url_for('static', path='/images/upload.svg') }}" alt="logo" width="250" height="150" style="object-fit: contain" class="mt-8"/>
+    <input type="file" name="image" accept="image/*" required class="hidden" id="fileInput" />
+    <p type="button" class="px-4 text-gray-400 text-2xl font-bold rounded-md hover:text-blue-500 transition">
+      Upload Image
+    </p>
+</button>

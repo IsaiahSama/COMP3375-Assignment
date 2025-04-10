@@ -1,19 +1,31 @@
 {% extends "base.html" %}
 
 {% block title %}
-Home
+Dashboard
+{% endblock %}
+
+
+{% block styles %}
+
 {% endblock %}
 
 {% block content %}
 
-<h1>Welcome to the home page</h1>
-
-<p>Below is some text from the server!</p>
-
-<span>{{ text }}</span>
-
-<p>Here's some more text from the server, but from HTMX!</p>
-
-<span hx-get="/htmx/hello" hx-trigger="load"></span>
+<div id="centerContainer" class="flex flex-col items-center mt-5">
+    <div class = "md:w-[75vw] w-[90vw] flex flex-col items-center pt-8 md:pt-5">
+        <div id="titleBar" class="flex justify-between items-center pb-5 w-full">
+            <h1 class="text-2xl font-bold">DashBoard</h1> 
+            <div class="flex">
+                <a href="/reports">
+                    <button class="button px-4 py-1 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm">View Reports</button>
+                </a>
+            </div>
+        </div>
+        
+        <div id="mapContainer" class="flex h-[70vh] w-full justify-center rounded-xl bg-[var(--blue-accent)]">
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" style="object-fit: contain" height="100%" width="100%">
+        </div>
+    </div>
+</div>
 
 {% endblock %}

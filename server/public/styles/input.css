@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+:root {
+  --blue-primary: #0777D8;
+  --blue-secondary: #1f8ded;
+  --blue-accent: #6FCBF5;
+  --green-primary: #55A62D;
+}

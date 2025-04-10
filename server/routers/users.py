@@ -1,34 +1,46 @@
-from fastapi import APIRouter, Request, Form
-from fastapi.responses import HTMLResponse
-from services.report_services import create_report
-from models.pothole import Pothole
 from typing import Annotated
+from fastapi import APIRouter, Request, Form
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from models.enums import Severity
+from server.models.users import User
 
-router = APIRouter()
-class ReportCreateForm(BaseModel):
-    """Form for creating a new report."""
-    lattitude: float
-    longitude: float
-    address: str
-    image_path: str
-    description: str
-    severity: Severity
+templates = Jinja2Templates(directory="templates")
+router = APIRouter(tags=["User"])
 
-@router.post("/report/create")
-async def create_report_endpoint(request: Request, report: Annotated[ReportCreateForm, Form()],):
+@router.get("/login")
+async def login_page(request: Request):
+    return templates.TemplateResponse("user/login.html", context={"request": request})
 
+@router.get("/register")
+async def register_page(request: Request):
+    return templates.TemplateResponse("user/register.html", context={"request": request})
 
-    """Create a new report."""
-    # Assuming report is a JSON string that can be converted to a Pothole object
-    report = Pothole()
-    report.id = ReportCreateForm.id
-    report.lattitude = ReportCreateForm.lattitude
-    report.longitude = ReportCreateForm.longitude
-    report.address = ReportCreateForm.address
-    report.image_path = ReportCreateForm.image_path
-    report.description = ReportCreateForm.description
-    report.severity = ReportCreateForm.severity
-    create_report(report)
-    return HTMLResponse(content=f"Report {report} created!", status_code=200)
+@router.get("/profile")
+async def profile_page(request: Request):
+    return templates.TemplateResponse("user/profile.html", context={"request": request})
+
+@router.get("/logout")
+async def logout_page(request: Request):
+    return templates.TemplateResponse("logout.html", context={"request": request})
+
+class LoginForm(BaseModel):
+    email: str
+    password: str
+
+@router.post("/login")
+async def login(request: Request, body: Annotated[LoginForm, Form()]):
+    user = None # Find user via email
+    # Ensure the passwords match
+    
+    return user
+
+class RegisterForm(BaseModel):
+    firstname: str
+    lastname: str
+    email: str
+    password: str
+
+@router.post("/register")
+async def register(request: Request, body: Annotated[RegisterForm, Form()]):
+    user = User(first_name=body.firstname, last_name=body.lastname, email=body.email, password=body.password)
+    return user

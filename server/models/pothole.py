@@ -1,7 +1,11 @@
 import uuid
 from typing import Optional, Annotated
 from pydantic import BaseModel, Field
-from enums import Status, Severity
+
+try:
+    from .enums import Status, Severity
+except ImportError:
+    from enums import Status, Severity
 
 class Pothole(BaseModel):
     id: Annotated[int, Field(default_factory=lambda: uuid.uuid4().int)]

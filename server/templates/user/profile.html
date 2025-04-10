@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<div id="nameBar" class="flex justify-between items-center w-full bg-[var(--blue-primary)] min-h-[10vh] p-8 mb-4">
+    <div id="infoContainer" class="flex items-center gap-5 text-white md:ml-8 md:pl-8">
+        <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
+        <div id="nameInfo">
+            <h1 class="text-2xl font-bold">John Doe</h1>
+            <p class="text-lg">Pothole Patroller</p>
+        </div>
+    </div>
+</div>
+
+<div id="background" class="flex flex-col items-center gap-5 mt-8 w-[80vw] lg:w-[55vw]">
+    <div id="box" class="flex flex-col items-center justify-center bg-gray-100 rounded-xl drop-shadow-xl md:min-h-[50vh] min-h-[40vh] md:w-full w-[80vw] p-8">
+        <img src="{{ url_for('static', path='/images/logo.png') }}" alt="logo" width="200" height="200" style="object-fit: contain">
+        <p class="md:text-xl text-lg font-semibold text-center mt-4 md:w-[35vw]">Thank you for making our <br> community better!</p>
+    </div>
+
+    <button hx-get="/logout" class="button mt-5 px-5 py-2 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm lg:w-[15vw] w-[80vw]">Log Out</button>
+</div>
+
+{% endblock %}

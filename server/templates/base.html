@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5">
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles/output.css') }}">
     <script src="{{ url_for('static', path='/scripts/htmx.min.js') }}"></script>
     <title>COMP3375 Assignment 2 - {% block title %}{% endblock %}</title>
-    
+
+{% block styles %}
+
+{% endblock %}
+
 </head>
+
 <body>
+    <header id="header" class="h-[8vh] w-full px-4">
+        <nav class="flex justify-between items-center w-full h-full px-5">
+            <div id="brand">
+                <a href="/" class="flex items-center gap-2 text-black text-decoration-none">
+                    <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="35" height="35"
+                        style="object-fit: contain">
+                    <h1 class="font-semibold">Pothole Patrol</h1>
+                </a>
+            </div>
+            <div id="menu" class="flex items-center justify-between gap-8 hidden lg:flex">
+                <a href="/">Home</a>
+                <a href="/reports">Reports</a>
+                <a href="/profile">
+                    <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="35" height="35" />
+                </a>
+            </div>
+        </nav>
+    </header>
 
-    Note: This will be extremely minimalist with no CSS such that the UI designer can do their work.
-
-    <section id="mainSection" class="section">
-        {% block content %}{% endblock %}
+    <section id="mainSection" class="section flex flex-col items-center">
+            {% block content %}{% endblock %}
     </section>
-    
+
 </body>
+
 </html>
