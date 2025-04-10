@@ -30,15 +30,15 @@ Login
                         <input type="password" id="password" name="password" placeholder="Password" required class="bg-gray-100 text-gray-900 text-sm rounded-sm w-full p-3">
                     </div>
 
-                    <input type="submit" value="Log In" class="button py-2 mt-3 bg-[var(--blue-primary)] text-white text-lg rounded-sm w-full">
+                    <input type="submit" value="Log In" class="button py-2 mt-3 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white text-lg rounded-sm w-full">
                 </form>  
 
                 <div id="box-footer" class="flex flex-col items-center mt-3 gap-2 w-full">
-                    <button id="google" class="flex items-center justify-center gap-2 button py-2 border border-[var(--blue-primary)] text-lg rounded-sm w-full">
+                    <button id="google" class="flex items-center justify-center hover:bg-gray-100 hover:cursor-pointer gap-2 button py-2 border border-[var(--blue-primary)] text-lg rounded-sm w-full">
                         <img src="{{ url_for('static', path='/images/google.png') }}" alt="Google" width="30" height="30">
                         Continue with Google
                     </button>
-                    <p class="md:mt-2">Don't have an account? <a href="/register" class="text-[var(--blue-primary)]">Sign Up</a></p>
+                    <p class="md:mt-2">Don't have an account? <a href="/register" class="text-[var(--blue-primary)] hover:cursor-pointer">Sign Up</a></p>
                 </div>
         </div>
     </div>
