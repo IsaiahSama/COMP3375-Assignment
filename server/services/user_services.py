@@ -1,4 +1,11 @@
 from server.models.users import User
+# from server.server import app
+from dotenv import dotenv_values
+from pymongo import MongoClient
+
+config = dotenv_values(".env")
+print(MongoClient(config["MONGO_URI"]))
+# app.mongodb_client = MongoClient(config["MONGO_URI"])
 
 async def get_user(user_id: int):
     pass
