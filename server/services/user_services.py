@@ -1,9 +1,8 @@
 from server.models.users import User
 # from server.server import app
-from dotenv import dotenv_values
+from server import config
 from pymongo import MongoClient
 
-config = dotenv_values(".env")
 print(MongoClient(config["MONGO_URI"]))
 # app.mongodb_client = MongoClient(config["MONGO_URI"])
 
