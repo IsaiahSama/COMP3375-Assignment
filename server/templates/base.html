@@ -16,12 +16,12 @@
 
 <body>
     <header id="header" class="h-[8vh] w-full px-4">
-        <nav class="flex justify-between items-center w-full h-full px-5">
+        <nav class="flex justify-between items-center w-full h-full md:px-5">
             <div id="brand">
                 <a href="/" class="flex items-center gap-2 text-black text-decoration-none">
                     <img src="{{ url_for('static', path='/images/logo.png') }}" alt="Logo" width="35" height="35"
                         style="object-fit: contain">
-                    <h1 class="font-semibold">Pothole Patrol</h1>
+                    <h1 class="font-semibold text-lg md:text-md">Pothole Patrol</h1>
                 </a>
             </div>
             <div id="menu" class="flex items-center justify-between gap-8 hidden lg:flex">
@@ -31,6 +31,10 @@
                     <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="35" height="35" />
                 </a>
             </div>
+            <button id="menuButton" class="flex items-center justify-between gap-8 lg:hidden" hx-get="/menu" hx-swap="innerHTML" hx-trigger="load">
+                <img src="{{ url_for('static', path='/images/burger-menu.svg') }}" alt="menu" width="30" height="30"
+                    style="object-fit: contain">
+            </button>
         </nav>
     </header>
 
