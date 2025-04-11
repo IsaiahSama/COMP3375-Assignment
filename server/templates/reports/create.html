@@ -13,42 +13,8 @@ Create Report
 
     </div>
 
-
-    <div id="locationUploadForm" hx-get="/htmx/report/location-upload" hx-target="#formBox"></div>
+    <div id="success" hx-get="/htmx/report/success" hx-target="#swappableBody"></div>
+    <div id="success" hx-get="/htmx/report/success" hx-target="#swappableBody"></div>
 </div>
-
-<script>
-
-const actionButton = document.getElementById("actionButton")
-const nextReq = document.getElementById('locationUploadForm')
-
-const handleInitialSubmit = (event) => {
-    if (event.detail.successful && event.detail.requestConfig.method === 'POST') {
-
-        actionButton.textContent = "Submit"
-
-        htmx.trigger(nextReq, 'click')
-        
-        actionButton.setAttribute('hx-post', '/report/location-upload')
-
-        document.body.removeEventListener('htmx:afterRequest', handleInitialSubmit);
-    }
-}
-
-const handleLocationSubmit = (event) => {
-
-    if (event.detail.successful && event.detail.requestConfig.method === "POST") {
-        nextReq.setAttribute('hx-get', '/htmx/report/success')
-
-        document.getElementById('buttons').innerHTML = "<a href='/'> <button> Return Home </button> </a>"
-    }
-
-    nextReq.click()
-
-}
-
-document.body.addEventListener('htmx:afterRequest', handleInitialSubmit);
-
-</script>
 
 {% endblock %}

@@ -187,6 +187,12 @@
   }
 }
 @layer utilities {
+  .invisible {
+    visibility: hidden;
+  }
+  .relative {
+    position: relative;
+  }
   .static {
     position: static;
   }
@@ -228,6 +234,9 @@
   }
   .hidden {
     display: none;
+  }
+  .inline {
+    display: inline;
   }
   .h-3 {
     height: calc(var(--spacing) * 3);
@@ -297,6 +306,12 @@
   }
   .min-w-\[90vw\] {
     min-width: 90vw;
+  }
+  .shrink {
+    flex-shrink: 1;
+  }
+  .resize {
+    resize: both;
   }
   .flex-col {
     flex-direction: column;

@@ -26,3 +26,21 @@
     <button id="actionButton" type="submit" class="bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer  text-white px-5 py-1 rounded-sm w-1/2">Submit</button>
   </div>
 </form>
+
+<script>
+
+const handleLocationSubmit = (event) => {
+
+    if (event.detail.successful && event.detail.requestConfig.verb === "post" && event.detail.target.id == "locationUploadForm") {
+
+        htmx.trigger(document.getElementById("success"), "click")
+
+        document.removeEventListener('htmx:afterRequest', handleLocationSubmit)
+    }
+
+}
+
+document.body.addEventListener('htmx:afterRequest', handleLocationSubmit);
+
+</script>
+

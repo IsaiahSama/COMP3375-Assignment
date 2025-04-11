@@ -64,7 +64,7 @@ async def create_report_endpoint(
     )
 
     await create_report(request, pothole)
-    return HTMLResponse(content=f"Report {report} created!", status_code=200)
+    return HTMLResponse(content=f"Report {report} created!", status_code=201)
 
 
 class ReportEditForm(BaseModel):
