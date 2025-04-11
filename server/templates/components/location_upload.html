@@ -1,23 +1,24 @@
-<input id="imgpath" type="hidden" name="imgpath" value={{img_path}}>
+<form id="locationUploadForm" hx-post="/reports/create">
+    <input id="imgpath" type="hidden" name="imgpath" value={{img_path}}>
 
-<div id="locationDiv">
+    <div id="locationDiv">
 
-    <label for="location">Approximate Location</label>
-    <input id="location" type="text" name="location">
-</div>
+        <label for="location">Approximate Location</label>
+        <input id="location" type="text" name="location">
+    </div>
 
-<div id="descriptionDiv">
-    <label for="desc">Add Description</label>
-    <textarea name="desc" id="desc" rows="8" cols="40"></textarea>
-</div>
+    <div id="descriptionDiv">
+        <label for="desc">Add Description</label>
+        <textarea name="desc" id="desc" rows="8" cols="40"></textarea>
+    </div>
 
-<div id="severityDiv">
+    <div id="severityDiv">
 
-    <label for="severity">Rate Severity</label>
-    <select name="severity" id="severity">
-            <option value="HIGH">High</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="LOW">Low</option>
-    </select>
-</div>
-
+        <label for="severity">Rate Severity</label>
+        <select name="severity" id="severity">
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+        </select>
+    </div>
+</form>
