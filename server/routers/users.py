@@ -19,7 +19,8 @@ async def register_page(request: Request):
 
 @router.get("/profile")
 async def profile_page(request: Request):
-    return templates.TemplateResponse("user/profile.html", context={"request": request})
+    logged_in_user = request.session.get("user")
+    return templates.TemplateResponse("user/profile.html", context={"request": request, "user": logged_in_user})
 
 @router.get("/logout")
 async def logout_page(request: Request):
@@ -37,6 +38,8 @@ async def login(request: Request, body: Annotated[LoginForm, Form()]):
     }
     user_authenticated = await user_login(user, request)  # Assuming user_login is a function that checks the user's credentials
     if user_authenticated:
+        if "user" in request.session:
+            del request.session["user"]  # Remove existing session if any
         # Set session or token here
         request.session["user"] = user_authenticated
         return RedirectResponse(url="/", status_code=303)

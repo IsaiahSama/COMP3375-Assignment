@@ -10,8 +10,13 @@ Profile
     <div id="infoContainer" class="flex items-center gap-5 text-white md:ml-8 md:pl-8">
         <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
         <div id="nameInfo">
-            <h1 class="text-2xl font-bold">John Doe</h1>
-            <p class="text-lg">Pothole Patroller</p>
+            {% if user and user.user %}
+                <h1 class="text-2xl font-bold">{{user.user.firstname}}</h1>
+                <p class="text-lg">{{user.user.lastname}}</p>
+            {% else %}
+                <h1 class="text-2xl font-bold">John</h1>
+                <p class="text-lg">Doe</p>
+            {% endif %}
         </div>
     </div>
 </div>
