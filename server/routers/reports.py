@@ -7,6 +7,7 @@ from server.services.report_services import (
     edit_report,
     delete_report,
     get_all_reports,
+    get_reports
 )
 from server.models.pothole import Pothole
 from typing import Annotated
@@ -22,7 +23,15 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    reports = await get_all_reports(request)
+    
+    user = request.session.get("user")
+    if not user:
+        return RedirectResponse("/login")
+    
+    if user["role"] != "admin":
+        reports = await get_reports(request, user["id"])
+    else:
+        reports = await get_all_reports(request)
 
     for report in reports:
         report["image_path"] = report["image_path"].lstrip("./")
@@ -34,11 +43,15 @@ async def reports_page(request: Request):
 
 @router.get("/edit")
 async def edit_report_page(request: Request):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     return templates.TemplateResponse("reports/edit.html", context={"request": request})
 
 
 @router.get("/create")
 async def create_report_page(request: Request):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     return templates.TemplateResponse(
         "reports/create.html", context={"request": request}
     )
@@ -46,6 +59,8 @@ async def create_report_page(request: Request):
 
 @router.get("/delete")
 async def delete_report_page(request: Request):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     return templates.TemplateResponse(
         "reports/delete.html", context={"request": request}
     )
@@ -64,6 +79,8 @@ class ReportCreateForm(BaseModel):
 async def create_report_endpoint(
     request: Request, report: Annotated[ReportCreateForm, Form()]
 ):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     """Create a new report."""
     # Assuming report is a JSON string that can be converted to a Pothole object
     pothole = Pothole(
@@ -88,17 +105,23 @@ class ReportEditForm(BaseModel):
 async def edit_report_endpoint(
     request: Request, report: Annotated[ReportEditForm, Form()]
 ):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     edit_report(request, report)
 
 
 @router.delete("/delete/{report_id}")
 async def delete_report_endpoint(request: Request, report_id: int):
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     delete_report(request, report_id)
 
 
 @router.post("/image-upload")
 async def report_image_upload(request: Request, image: UploadFile = File(...)):
     """This is the route to access the image upload form."""
+    if not request.session.get("user"):
+        return RedirectResponse("/login")
     path = ""
     filename = ""
     if image.file and image.filename:
