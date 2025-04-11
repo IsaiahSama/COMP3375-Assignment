@@ -34,7 +34,8 @@ async def user_login(user, request: Request):
         user_return = {
             "email": user_check["email"],
             "first_name": user_check["first_name"],
-            "last_name": user_check["last_name"]
+            "last_name": user_check["last_name"],
+            "role": user_check["role"]
         }
         if pwd_context.verify(user["password"], user_check["password"])  and user_check["email"] == user["email"]:
             return user_return

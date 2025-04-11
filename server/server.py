@@ -49,8 +49,12 @@ async def lifespan(app: FastAPI):
     process.terminate()
 
     # Close the database connection when the app is shutting down
-    if hasattr(app, "mongodb_client"):
-        await app.mongodb_client.close()
+    if hasattr(app, "mongodb_client") and app.mongodb_client is not None:
+        try:
+            app.mongodb_client.close()
+            app.mongodb_client = None
+        except Exception as e:
+            print(f"Error closing MongoDB connection: {e}")
 
 app = FastAPI(lifespan=lifespan)
 
