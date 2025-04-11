@@ -16,9 +16,13 @@
 
         <label for="severity">Rate Severity</label>
         <select name="severity" id="severity">
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
         </select>
     </div>
+  <div id="buttons" class="flex gap-8 mt-8 lg:w-[30vw] md:w-[60vw] w-[80vw] justify-between">
+    <button id="cancelButton" class="bg-gray-200 text-gray-600 px-5 py-1 hover:bg-gray-300 hover:cursor-pointer rounded-sm w-1/2">Cancel</button>
+    <button id="actionButton" type="submit" class="bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer  text-white px-5 py-1 rounded-sm w-1/2">Submit</button>
+  </div>
 </form>

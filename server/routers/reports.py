@@ -63,7 +63,7 @@ async def create_report_endpoint(
         severity=report.severity,
     )
 
-    create_report(request, pothole)
+    await create_report(request, pothole)
     return HTMLResponse(content=f"Report {report} created!", status_code=200)
 
 
