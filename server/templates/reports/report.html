@@ -42,30 +42,30 @@ Reports
         <input type="text" name="search" id="search" placeholder="Search" hx-target="#reports" hx-trigger="keyup">
     </div>
 
-    <div id="reports" class="flex flex-col gap-5 mt-5 min-h-[65vh]">
+    <div id="reports" class="flex flex-col gap-5 mt-5 min-h-[65vh] w-full">
         {% if reports | length == 0 %}
         <p class="text-center text-lg font-semibold text-gray-500 mt-8 pt-8">No Reports Found</p>
         {% endif %}
         {% for report in reports %}
 
-        <div class="report flex gap-5 w-full bg-gray-100 p-5 rounded-xl shadow min-h-[10vh]">
+        <div class="report flex gap-5 min-w-full bg-gray-100 p-5 rounded-xl shadow min-h-[10vh]">
             <img src="{{ url_for('static', path='/uploaded-images/'+report['image_path']) }}" alt="map" width="50"
                 height="50">
 
-            <div class="reportInfo flex justify-between">
+            <div class="reportInfo flex justify-between items-between w-full">
                 <div class="flex flex-col gap-2">
-                    <p>Location: {{ report['location'] }}Spring Garden Highway</p>
-                    <p>Status: {{ report['status'] }}</p>
+                    <p>Location: {{ report['location'] }}</p>
+                    <p style="text-transform: capitalize;">Status: {{ report['status'] }}</p>
                     <p>{{ report['date'] }}</p>
                 </div>
 
                 <div class="flex flex-col justify-between">
                     <div class="report line3">
-                        <p>{{ report['severity'] }}</p>
+                        <p style="text-transform: capitalize" >{{ report['severity'] }}</p>
                     </div>
 
                     <div class="report line1">
-                        <h2>{{ report['id'] }}</h2>
+                        <h2 style="text-transform: capitalize">{{ report['id'] }}</h2>
                     </div>
                 </div>
             </div>
