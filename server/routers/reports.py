@@ -29,7 +29,7 @@ async def reports_page(request: Request):
         return RedirectResponse("/login")
     
     if user["role"] != "admin":
-        reports = await get_reports(request, user["id"])
+        reports = await get_reports(request)
     else:
         reports = await get_all_reports(request)
 

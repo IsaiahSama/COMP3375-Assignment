@@ -77,8 +77,7 @@ async def create_user(user: User, request: Request):
             "role": new_user["role"],
         }
         request.session["user"] = logged_in_user
-        print(new_user)
-        return new_user
+        return user_validation
 
 
 async def update_user(user_id: int, user: User):
