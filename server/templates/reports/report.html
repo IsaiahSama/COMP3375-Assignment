@@ -47,17 +47,25 @@ Reports
         <p class="text-center text-lg font-semibold text-gray-500 mt-8 pt-8">No Reports Found</p>
         {% endif %}
         {% for report in reports %}
-        <div class="report">
-            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
-            <div class="reportInfo">
-                <div class="report line1">
-                    <h2>{{ report.id }}</h2>
-                </div>
-                <p>Status: {{ report.status }}</p>
-                <div class="report line3">
+        <div class="report flex gap-5 w-full">
+            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="50" height="50">
+
+            <div class="reportInfo flex justify-between">
+                <div class="flex flex-col gap-2">
+                    <p>Location: {{ report.location }}Spring Garden Highway</p>
+                    <p>Status: {{ report.status }}</p>
                     <p>{{ report.date }}</p>
-                    <p>P-13</p>
                 </div>
+
+               <div class="flex flex-col justify-between">
+                    <div class="report line3">
+                        <p>High</p>
+                    </div>
+
+                    <div class="report line1">
+                        <h2>{{ report.id }}</h2>
+                    </div>
+               </div>
             </div>
         </div>
         {% endfor %}
