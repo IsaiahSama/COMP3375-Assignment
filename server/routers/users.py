@@ -71,7 +71,7 @@ async def register(request: Request, body: Annotated[RegisterForm, Form()]):
     print(logged_in_user)
     if user_create["valid_pass"] and user_create["valid_email"]:
         print(user_create)
-        return RedirectResponse(url="/", status_code=303)
+        return templates.TemplateResponse("index.html", context={"request": request})
     
     else:
         if not user_create["valid_email"] and not user_create["valid_pass"]:
