@@ -47,7 +47,7 @@ Reports
         <p class="text-center text-lg font-semibold text-gray-500 mt-8 pt-8">No Reports Found</p>
         {% endif %}
         {% for report in reports %}
-        <div class="report flex gap-5 w-full">
+        <div class="report flex gap-5 w-full bg-gray-100 p-5 rounded-xl shadow min-h-[15vh]">
             <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="50" height="50">
 
             <div class="reportInfo flex justify-between">
