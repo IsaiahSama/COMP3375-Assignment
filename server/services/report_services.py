@@ -9,6 +9,13 @@ async def create_report(request: Request, report: Pothole) -> bool:
 
     dumped_model = jsonable_encoder(report)
     del dumped_model["id"]
+
+    user_email = request.session.get("user", {}).get(
+        "email", None
+    )  # get_user_email_from_session()
+
+    dumped_model["user_email"] = user_email
+
     await request.app.mongodb["Pothole"].insert_one(dumped_model)
 
     return success

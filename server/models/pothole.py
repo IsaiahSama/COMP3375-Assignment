@@ -17,6 +17,9 @@ class Pothole(BaseModel):
         Status, Field(default=Status.REPORTED, description="Pothole status")
     ]
     severity: Annotated[Severity, Field(description="Pothole severity")]
+    poster_email: Annotated[
+        str, Field(default="", description="The email of the uploader")
+    ]
 
     class Config:
         use_enum_values = True
