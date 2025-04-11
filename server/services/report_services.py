@@ -44,7 +44,7 @@ async def get_all_reports(request: Request) -> List[Pothole]:
 async def get_reports(request: Request) -> List[Pothole]:
     user_email = request.session.get("user", {}).get("email", None)
 
-    reports = await request.app.mongodb["Pothole"].find({"email": user_email}).to_list()
+    reports = await request.app.mongodb["Pothole"].find().to_list()
     
     user_reports = [report for report in reports if report["user_email"] == user_email]
 

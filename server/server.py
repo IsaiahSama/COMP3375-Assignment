@@ -1,6 +1,7 @@
 """This will be the main entry point for the server."""
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
