@@ -22,7 +22,10 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    reports = get_all_reports(request)
+    reports = await get_all_reports(request)
+
+    for report in reports:
+        report["image_path"] = report["image_path"].lstrip("./")
 
     return templates.TemplateResponse(
         "reports/report.html", context={"request": request, "reports": reports}
@@ -97,13 +100,10 @@ async def delete_report_endpoint(request: Request, report_id: int):
 async def report_image_upload(request: Request, image: UploadFile = File(...)):
     """This is the route to access the image upload form."""
     path = ""
+    filename = ""
     if image.file and image.filename:
-        path = (
-            "./uploaded-images/temp_"
-            + str(uuid.uuid4())
-            + "."
-            + image.filename.split(".")[-1]
-        )
+        filename = "temp_" + str(uuid.uuid4()) + "." + image.filename.split(".")[-1]
+        path = "./public/uploaded-images/" + filename
 
         with open(path, "wb") as fp:
             _ = fp.write(await image.read())
@@ -113,5 +113,5 @@ async def report_image_upload(request: Request, image: UploadFile = File(...)):
 
     return templates.TemplateResponse(
         "components/location_upload.html",
-        context={"request": request, "img_path": path},
+        context={"request": request, "img_path": filename},
     )

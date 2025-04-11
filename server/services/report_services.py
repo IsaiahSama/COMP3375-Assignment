@@ -36,7 +36,7 @@ async def delete_report(request: Request, report: int) -> bool:
 
 
 async def get_all_reports(request: Request) -> List[Pothole]:
-    reports = await request.app.mongodb["Pothole"].find_all()
+    reports = await request.app.mongodb["Pothole"].find().to_list()
 
     return reports
 

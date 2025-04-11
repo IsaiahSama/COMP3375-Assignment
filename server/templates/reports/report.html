@@ -48,14 +48,14 @@ Reports
         {% endif %}
         {% for report in reports %}
         <div class="report">
-            <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" width="100%">
+             <img src="{{ url_for('static', path="/uploaded-images/" + report['image_path']) }}" alt="map" width="100%">
             <div class="reportInfo">
                 <div class="report line1">
-                    <h2>{{ report.id }}</h2>
+                    <h2>{{ report['id'] }}</h2>
                 </div>
-                <p>Status: {{ report.status }}</p>
+                <p>Status: {{ report['status'] }}</p>
                 <div class="report line3">
-                    <p>{{ report.date }}</p>
+                    <p>{{ report['date'] }}</p>
                     <p>P-13</p>
                 </div>
             </div>
