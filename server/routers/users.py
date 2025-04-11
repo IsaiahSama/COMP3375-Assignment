@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from server.models.users import User
-from server.services.user_services import create_user
+from server.services.user_services import create_user, user_login
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(tags=["User"])
@@ -31,10 +31,19 @@ class LoginForm(BaseModel):
 
 @router.post("/login")
 async def login(request: Request, body: Annotated[LoginForm, Form()]):
-    user = None # Find user via email
+    user = {
+        "email": body.email,
+        "password": body.password
+    }
+    user_authenticated = await user_login(user, request)  # Assuming user_login is a function that checks the user's credentials
+    if user_authenticated:
+        # Set session or token here
+        request.session["user"] = user_authenticated
+        return RedirectResponse(url="/", status_code=303)
     # Ensure the passwords match
-    
-    return user
+    else:
+        return templates.TemplateResponse("user/register.html", context={"request": request, "error": "Invalid Credentials"})
+
 
 class RegisterForm(BaseModel):
     firstname: str

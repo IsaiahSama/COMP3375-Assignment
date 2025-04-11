@@ -7,9 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from server import config
 from motor.motor_asyncio import AsyncIOMotorClient
+from starlette.middleware.sessions import SessionMiddleware
+import secrets
 
 from fastapi_tailwind import tailwind
 
+secret= secrets.token_hex(32)
 
 from server import config
 from pymongo import MongoClient
@@ -61,6 +64,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key= secret,
+    max_age=3600, # 1 hour
 )
 
 app.include_router(htmx.router)
