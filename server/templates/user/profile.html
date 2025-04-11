@@ -10,7 +10,6 @@ Profile
     <div id="infoContainer" class="flex items-center gap-5 text-white md:ml-8 md:pl-8">
         <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
         <div id="nameInfo">
-            {{user}}
             {% if user %}
                 <h1 class="text-2xl font-bold">{{user["first_name"]}} {{user["last_name"]}}</h1>
                 {%if user["role"] == "admin" %}

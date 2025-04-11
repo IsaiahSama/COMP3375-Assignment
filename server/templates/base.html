@@ -24,6 +24,7 @@
                     <h1 class="font-semibold text-lg md:text-md">Pothole Patrol</h1>
                 </a>
             </div>
+            {% if request.session.get('user') %}
             <div id="menu" class="flex items-center justify-between gap-8 hidden lg:flex">
                 <a href="/">Home</a>
                 <a href="/reports">Reports</a>
@@ -31,6 +32,7 @@
                     <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="35" height="35" />
                 </a>
             </div>
+            {% endif %}
             <button id="menuButton" class="flex items-center justify-between gap-8 lg:hidden">
                 <img src="{{ url_for('static', path='/images/burger-menu.svg') }}" alt="menu" width="30" height="30"
                     style="object-fit: contain">

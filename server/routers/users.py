@@ -54,11 +54,9 @@ async def login(request: Request, body: Annotated[LoginForm, Form()]):
         user, request
     )  # Assuming user_login is a function that checks the user's credentials
     if user_authenticated:
-        if "user" in request.session:
-            del request.session["user"]  # Remove existing session if any
         # Set session or token here
         request.session["user"] = user_authenticated
-        return RedirectResponse(url="/", status_code=303)
+        return templates.TemplateResponse("index.html", context={"request": request})
     # Ensure the passwords match
     else:
         return templates.TemplateResponse(
