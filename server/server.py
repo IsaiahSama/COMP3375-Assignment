@@ -84,7 +84,7 @@ app.include_router(reports.router)
 @app.get("/")
 async def root(request: Request):
     print("Session Data:", request.session)
-    return templates.TemplateResponse("index.html", context={"request": request, "text": "Hello from the server!"})
+    return templates.TemplateResponse("user/login.html", context={"request": request, "text": "Hello from the server!"})
 
 
 if __name__ == "__main__":    

@@ -65,6 +65,13 @@ async def create_user(user: User, request: Request):
         user_JSON = jsonable_encoder(user)
         await request.app.mongodb["Users"].insert_one(user_JSON)
         new_user = await request.app.mongodb["Users"].find_one({"email": user.email})
+        logged_in_user = {
+            "email": new_user["email"],
+            "first_name": new_user["first_name"],
+            "last_name": new_user["last_name"],
+            "role": new_user["role"],
+        }
+        request.session["user"] = logged_in_user
         print(new_user)
         return user_validation
 

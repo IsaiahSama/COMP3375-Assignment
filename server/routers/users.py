@@ -46,14 +46,12 @@ async def login(request: Request, body: Annotated[LoginForm, Form()]):
     }
     user_authenticated = await user_login(user, request)  # Assuming user_login is a function that checks the user's credentials
     if user_authenticated:
-        if "user" in request.session:
-            del request.session["user"]  # Remove existing session if any
         # Set session or token here
         request.session["user"] = user_authenticated
-        return RedirectResponse(url="/", status_code=303)
+        return templates.TemplateResponse("index.html", context={"request": request})
     # Ensure the passwords match
     else:
-        return templates.TemplateResponse("user/register.html", context={"request": request, "error": "Invalid Credentials"})
+        return templates.TemplateResponse("user/login.html", context={"request": request, "error": "Invalid Credentials"})
 
 
 class RegisterForm(BaseModel):
@@ -68,14 +66,9 @@ async def register(request: Request, body: Annotated[RegisterForm, Form()]):
 
     user = User(first_name=body.firstname, last_name=body.lastname, email=body.email, password=body.password)
     user_create =await create_user(user, request)
-    logged_in_user = {
-        "email": user_create["email"],
-        "first_name": user_create["first_name"],
-        "last_name": user_create["last_name"],
-        "role": user_create["role"]
-    }
-    request.session["user"] = logged_in_user  # Set session or token here
-    print(request.session["user"])
+    logged_in_user = request.session.get("user")
+    # Set session or token here
+    print(logged_in_user)
     if user_create["valid_pass"] and user_create["valid_email"]:
         print(user_create)
         return RedirectResponse(url="/", status_code=303)
