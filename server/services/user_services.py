@@ -15,6 +15,7 @@ user_validation = {}
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 async def get_user(regUser):
     """Get user by email."""
     user = await regUser.app.mongodb["Users"].find_one({"email": regUser.email})
@@ -23,6 +24,7 @@ async def get_user(regUser):
     else:
         return None
 
+
 async def user_login(user, request: Request):
     user_check = await request.app.mongodb["Users"].find_one({"email": user["email"]})
     if user_check:
@@ -30,9 +32,12 @@ async def user_login(user, request: Request):
             "email": user_check["email"],
             "first_name": user_check["first_name"],
             "last_name": user_check["last_name"],
-            "role": user_check["role"]
+            "role": user_check["role"],
         }
-        if pwd_context.verify(user["password"], user_check["password"])  and user_check["email"] == user["email"]:
+        if (
+            pwd_context.verify(user["password"], user_check["password"])
+            and user_check["email"] == user["email"]
+        ):
             return user_return
         else:
             return None
@@ -66,7 +71,7 @@ async def create_user(user: User, request: Request):
         await request.app.mongodb["Users"].insert_one(user_JSON)
         new_user = await request.app.mongodb["Users"].find_one({"email": user.email})
         print(new_user)
-        return user_validation
+        return new_user
 
 
 async def update_user(user_id: int, user: User):

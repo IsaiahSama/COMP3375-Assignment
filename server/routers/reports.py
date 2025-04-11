@@ -2,7 +2,12 @@ from fastapi import APIRouter, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
-from server.services.report_services import create_report, edit_report, delete_report
+from server.services.report_services import (
+    create_report,
+    edit_report,
+    delete_report,
+    get_all_reports,
+)
 from server.models.pothole import Pothole
 from typing import Annotated
 from pydantic import BaseModel
@@ -17,8 +22,10 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
+    reports = get_all_reports(request)
+
     return templates.TemplateResponse(
-        "reports/report.html", context={"request": request}
+        "reports/report.html", context={"request": request, "reports": reports}
     )
 
 
