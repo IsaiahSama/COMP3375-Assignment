@@ -1,15 +1,15 @@
 <form id="locationUploadForm" hx-post="/reports/create" class="mt-5 px-8 flex flex-col items-center justify-center">
     <input id="imgpath" type="hidden" name="imgpath" value={{img_path}}>
 
-   <div class="flex flex-col gap-5 bg-gray-100 rounded-lg min-w-[50vw] lg:min-h-[30vw] md:min-h-[40vw] min-h-[50vw] p-8">
+   <div class="flex flex-col gap-5 bg-gray-100 rounded-lg min-w-[45vw] lg:min-h-[30vw] md:min-h-[40vw] min-h-[50vw] p-8">
         <div id="locationDiv" class="flex flex-col gap-2">
-            <label for="location">Adjust Location</label>
-            <input id="location" type="text" name="location" class="bg-gray-200 min-h-[20vh] rounded">
+            <label for="location">Approximate Location</label>
+            <input id="location" type="text" name="location" class="bg-gray-200 py-2 px-4 rounded">
         </div>
 
         <div id="descriptionDiv" class="flex flex-col gap-2 rounded-lg">
             <label for="desc">Add Description</label>
-            <textarea class="bg-gray-200 p-5 rounded" name="desc" id="desc" rows="2" cols="40"></textarea>
+            <textarea class="bg-gray-200 p-5 rounded" name="desc" id="desc" rows="3" cols="40"></textarea>
         </div>
 
         <div id="severityDiv" class="flex flex-col gap-2">

@@ -37,9 +37,10 @@ Reports
         </a>
     </div>
 
-    <div id="searchBar">
+    <div id="searchBar" class="flex w-full justify-between">
         <!-- Once route is defined, add the hx-get for the report filter -->
-        <input type="text" name="search" id="search" placeholder="Search" hx-target="#reports" hx-trigger="keyup">
+        <input type="text" name="search" id="search" placeholder="Search" hx-target="#reports" hx-trigger="keyup" class="bg-gray-100 border-none rounded-full w-full px-5 py-1">
+        <img src="{{ url_for('static', path='/images/filter.svg') }}" alt="search" width="30" height="30"/>
     </div>
 
     <div id="reports" class="flex flex-col gap-5 mt-5 min-h-[65vh] w-full">
