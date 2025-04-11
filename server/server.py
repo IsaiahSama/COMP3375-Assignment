@@ -10,10 +10,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from fastapi_tailwind import tailwind
 
-
-from server import config
-from pymongo import MongoClient
-
 from os import path
 
 try:
