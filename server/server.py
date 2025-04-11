@@ -4,6 +4,9 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from pymongo import MongoClient
+from server import config
+from motor.motor_asyncio import AsyncIOMotorClient
 
 from fastapi_tailwind import tailwind
 
@@ -16,7 +19,7 @@ from os import path
 try:
     from .routers import htmx, users, reports
 except ImportError:
-    from routers import htmx, users, reports
+    from .routers import htmx, users, reports
 
 static_files = StaticFiles(directory="public")
 
@@ -34,8 +37,8 @@ async def lifespan(app: FastAPI):
     )
 
     """Connect to the database."""
-#     app.mongodb_client = MongoClient(config["MONGO_URI"])
-#     app.mongodb = app.mongodb_client[config["MONGO_DB_NAME"]]
+    app.mongodb_client = AsyncIOMotorClient(config["MONGO_URI"])
+    app.mongodb = app.mongodb_client[config["MONGO_DB_NAME"]]
     yield
 
     # Terminate Tailwind 
@@ -43,8 +46,8 @@ async def lifespan(app: FastAPI):
     process.terminate()
 
     # Close the database connection when the app is shutting down
-#     if hasattr(app, "mongodb_client"):
-#         app.mongodb_client.close()
+    if hasattr(app, "mongodb_client"):
+        await app.mongodb_client.close()
 
 app = FastAPI(lifespan=lifespan)
 

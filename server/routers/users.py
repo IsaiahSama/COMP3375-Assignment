@@ -1,8 +1,10 @@
 from typing import Annotated
 from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from server.models.users import User
+from server.services.user_services import create_user
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(tags=["User"])
@@ -42,5 +44,23 @@ class RegisterForm(BaseModel):
 
 @router.post("/register")
 async def register(request: Request, body: Annotated[RegisterForm, Form()]):
+    print("in regiser post route")
+
     user = User(first_name=body.firstname, last_name=body.lastname, email=body.email, password=body.password)
-    return user
+    user_create =await create_user(user, request)
+    if user_create["valid_pass"] and user_create["valid_email"]:
+        print(user_create)
+        return RedirectResponse(url="/", status_code=303)
+    
+    else:
+        if not user_create["valid_email"] and not user_create["valid_pass"]:
+            # Handle both invalid password and email error
+            return templates.TemplateResponse("user/register.html", context={"request": request, "error": "Invalid email and password"})
+        if not user_create["valid_pass"]:
+            # Handle invalid password error
+            return templates.TemplateResponse("user/register.html", context={"request": request, "error": "Invalid password"})
+        if not user_create["valid_email"]:
+            # Handle invalid email error
+            return templates.TemplateResponse("user/register.html", context={"request": request, "error": "Invalid email"})
+        
+    

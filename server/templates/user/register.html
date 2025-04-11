@@ -18,6 +18,9 @@ Register
             
             <div id="box-content"  class="flex flex-col items-center gap-2 w-full md:p-5">
                 <form method="POST" action="/register" class="flex flex-col w-full gap-4">
+                    {% if error %}
+                        <div class="text-red-500 text-sm font-semibold text-center">{{ error }}</div>
+                    {% endif %}
                     <div class="flex flex-col md:flex-row gap-4">
                         <!-- First Name -->
                         <div class="flex flex-col gap-2 md:w-1/2">
