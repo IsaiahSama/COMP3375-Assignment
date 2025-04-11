@@ -7,8 +7,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from server import config
 from motor.motor_asyncio import AsyncIOMotorClient
+from starlette.middleware.sessions import SessionMiddleware
+import secrets
 
 from fastapi_tailwind import tailwind
+
+secret = secrets.token_hex(32)
+
+from server import config
+from pymongo import MongoClient
 
 from os import path
 
@@ -42,8 +49,12 @@ async def lifespan(app: FastAPI):
     process.terminate()
 
     # Close the database connection when the app is shutting down
-    if hasattr(app, "mongodb_client"):
-        await app.mongodb_client.close()
+    if hasattr(app, "mongodb_client") and app.mongodb_client is not None:
+        try:
+            app.mongodb_client.close()
+            app.mongodb_client = None
+        except Exception as e:
+            print(f"Error closing MongoDB connection: {e}")
 
 app = FastAPI(lifespan=lifespan)
 
@@ -59,6 +70,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(
+    SessionMiddleware,
+    secret_key= secret,
+    max_age=3600, # 1 hour
+)
+
 app.include_router(htmx.router)
 app.include_router(users.router)
 app.include_router(reports.router)
@@ -66,6 +83,7 @@ app.include_router(reports.router)
 
 @app.get("/")
 async def root(request: Request):
+    print("Session Data:", request.session)
     return templates.TemplateResponse("index.html", context={"request": request, "text": "Hello from the server!"})
 
 
