@@ -1,31 +1,30 @@
 """This will be the main entry point for the server."""
+
+import secrets
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from pymongo import MongoClient
-from server import config
 from motor.motor_asyncio import AsyncIOMotorClient
 from starlette.middleware.sessions import SessionMiddleware
-import secrets
-
 from fastapi_tailwind import tailwind
-
-secret = secrets.token_hex(32)
-
-from server import config
-from pymongo import MongoClient
-
 from os import path
+
 
 try:
     from .routers import htmx, users, reports
+    from .config import config
 except ImportError:
-    from .routers import htmx, users, reports
+    from routers import htmx, users, reports
+    from config import config
+
+
+secret = secrets.token_hex(32)
 
 static_files = StaticFiles(directory="public")
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,25 +36,23 @@ async def lifespan(app: FastAPI):
 
     process = tailwind.compile(
         path.join(styles_dir, "output.css"),
-        tailwind_stylesheet_path=path.join(styles_dir, "input.css")
+        tailwind_stylesheet_path=path.join(styles_dir, "input.css"),
     )
 
     """Connect to the database."""
-    app.mongodb_client = AsyncIOMotorClient(config["MONGO_URI"])
-    app.mongodb = app.mongodb_client[config["MONGO_DB_NAME"]]
+    client = AsyncIOMotorClient(config.mongo_uri)
+    db = client.get_database(config.mongo_db_name)
+
+    setattr(app, "mongodb", db)
     yield
 
-    # Terminate Tailwind 
-    
+    # Terminate Tailwind
+
     process.terminate()
 
     # Close the database connection when the app is shutting down
-    if hasattr(app, "mongodb_client") and app.mongodb_client is not None:
-        try:
-            app.mongodb_client.close()
-            app.mongodb_client = None
-        except Exception as e:
-            print(f"Error closing MongoDB connection: {e}")
+    client.close()
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -73,8 +70,8 @@ app.add_middleware(
 
 app.add_middleware(
     SessionMiddleware,
-    secret_key= secret,
-    max_age=3600, # 1 hour
+    secret_key=secret,
+    max_age=3600,  # 1 hour
 )
 
 app.include_router(htmx.router)
@@ -89,7 +86,7 @@ async def root(request: Request):
     return templates.TemplateResponse("index.html", context={"request": request})
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run("server:app", host="0.0.0.0", port=8000)
