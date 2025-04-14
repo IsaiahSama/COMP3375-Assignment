@@ -16,7 +16,7 @@ async def create_report(request: Request, report: Report) -> bool:
 
     dumped_model["user_email"] = user_email
 
-    await request.app.mongodb[Collections.REPORT].insert_one(dumped_model)
+    await request.app.mongodb[Collections.REPORT.value].insert_one(dumped_model)
 
     return success
 
@@ -36,11 +36,11 @@ async def delete_report(request: Request, report: int) -> bool:
 
 async def get_all_reports(request: Request) -> list[dict[str, str]]:
     reports: list[dict[str, str]] = (
-        await request.app.mongodb[Collections.REPORT].find().to_list()
+        await request.app.mongodb[Collections.REPORT.value].find().to_list()
     )
 
     for report in reports:
-        report["id"] = report["image_path"].split("_")[-1].split(".")[0]
+        report["display_id"] = report["id"][:5]
 
     return reports
 
