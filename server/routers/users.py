@@ -111,7 +111,7 @@ async def register(request: Request, body: Annotated[RegisterForm, Form()]):
     success = await user_services.create_user(request, user)
 
     if success:
-        return RedirectResponse("/", 201)
+        return RedirectResponse("/login")
     else:
         return templates.TemplateResponse(
             return_page,
