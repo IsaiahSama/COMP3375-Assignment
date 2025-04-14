@@ -29,7 +29,8 @@ Report
         <div class="info-container">
             <p>Location: {{ report['location'] }}</p>
             <p style="text-transform: capitalize;">Status: {{ report['status'] }}</p>
-            <p>{{ report['date'] }}</p>
+            <p>Created At: {{ report['created_at'] }}</p>
+            <p>Last Updated: {{ report['updated_at'] }}</p>
 
             <p style="text-transform: capitalize" >Severity: {{ report['severity'] }}</p>
         </div>
