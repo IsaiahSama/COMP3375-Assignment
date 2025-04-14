@@ -26,9 +26,9 @@ async def register_page(request: Request):
 
 @router.get("/profile")
 async def profile_page(request: Request):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
-    logged_in_user = request.session.get("user")
+    logged_in_user = SessionUser.get_session_user(request)
     return templates.TemplateResponse(
         "user/profile.html", context={"request": request, "user": logged_in_user}
     )
@@ -36,10 +36,12 @@ async def profile_page(request: Request):
 
 @router.get("/logout")
 async def logout_page(request: Request):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
+
     if "user" in request.session:
         del request.session["user"]
+
     return RedirectResponse(url="/login", status_code=303)
 
 
@@ -65,7 +67,7 @@ async def login(request: Request, body: Annotated[LoginForm, Form()]):
 
     if user_authenticated:
         # Set session or token here
-        request.session["user"] = user_authenticated
+        request.session["user"] = user_authenticated.to_json()
         return RedirectResponse("/")
     else:
         return templates.TemplateResponse(

@@ -9,6 +9,7 @@ from services.report_services import (
     get_all_reports,
     get_reports,
 )
+from utils.session_manager import SessionUser
 from models.pothole import Pothole
 from typing import Annotated
 from pydantic import BaseModel
@@ -23,11 +24,11 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    user = request.session.get("user")
+    user = SessionUser.get_session_user(request)
     if not user:
         return RedirectResponse("/login")
 
-    if user["role"] != "admin":
+    if user.role != "admin":
         reports = await get_reports(request)
     else:
         reports = await get_all_reports(request)
@@ -42,14 +43,14 @@ async def reports_page(request: Request):
 
 @router.get("/edit")
 async def edit_report_page(request: Request):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
     return templates.TemplateResponse("reports/edit.html", context={"request": request})
 
 
 @router.get("/create")
 async def create_report_page(request: Request):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
     return templates.TemplateResponse(
         "reports/create.html", context={"request": request}
@@ -58,7 +59,7 @@ async def create_report_page(request: Request):
 
 @router.get("/delete")
 async def delete_report_page(request: Request):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
     return templates.TemplateResponse(
         "reports/delete.html", context={"request": request}
@@ -78,7 +79,7 @@ class ReportCreateForm(BaseModel):
 async def create_report_endpoint(
     request: Request, report: Annotated[ReportCreateForm, Form()]
 ):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
 
     pothole = Pothole(
@@ -107,7 +108,7 @@ class ReportEditForm(BaseModel):
 async def edit_report_endpoint(
     request: Request, report: Annotated[ReportEditForm, Form()]
 ):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
 
     await edit_report(request, report)
@@ -115,7 +116,7 @@ async def edit_report_endpoint(
 
 @router.delete("/delete/{report_id}")
 async def delete_report_endpoint(request: Request, report_id: int):
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
 
     await delete_report(request, report_id)
@@ -124,7 +125,7 @@ async def delete_report_endpoint(request: Request, report_id: int):
 @router.post("/image-upload")
 async def report_image_upload(request: Request, image: UploadFile = File(...)):
     """This is the route to access the image upload form."""
-    if not request.session.get("user"):
+    if not SessionUser.get_session_user(request):
         return RedirectResponse("/login")
 
     path = ""
