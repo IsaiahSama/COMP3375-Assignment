@@ -9,7 +9,6 @@ async def create_report(request: Request, report: Report) -> bool:
     success = True
 
     dumped_model = jsonable_encoder(report)
-    del dumped_model["id"]
 
     user_email = request.session.get("user", {}).get(
         "email", None
