@@ -76,7 +76,7 @@ app.include_router(reports.router)
 @app.get("/")
 async def root(request: Request):
     if not request.session.get("user"):
-        return RedirectResponse("/login")
+        return RedirectResponse("/login", 302)
     return templates.TemplateResponse("index.html", context={"request": request})
 
 
