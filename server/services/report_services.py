@@ -1,9 +1,9 @@
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
-from models.pothole import Pothole
+from models.report import Report
 
 
-async def create_report(request: Request, report: Pothole) -> bool:
+async def create_report(request: Request, report: Report) -> bool:
     """Create a new report."""
     success = True
 
@@ -16,12 +16,12 @@ async def create_report(request: Request, report: Pothole) -> bool:
 
     dumped_model["user_email"] = user_email
 
-    await request.app.mongodb["Pothole"].insert_one(dumped_model)
+    await request.app.mongodb["Report"].insert_one(dumped_model)
 
     return success
 
 
-async def edit_report(request: Request, report: Pothole) -> bool:
+async def edit_report(request: Request, report: Report) -> bool:
     """Edit an existing report."""
     success = True
 
@@ -36,7 +36,7 @@ async def delete_report(request: Request, report: int) -> bool:
 
 async def get_all_reports(request: Request) -> list[dict[str, str]]:
     reports: list[dict[str, str]] = (
-        await request.app.mongodb["Pothole"].find().to_list()
+        await request.app.mongodb["Report"].find().to_list()
     )
 
     for report in reports:

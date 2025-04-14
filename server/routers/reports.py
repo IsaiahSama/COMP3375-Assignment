@@ -11,7 +11,7 @@ from services.report_services import (
 )
 from utils.session_manager import SessionUser
 from utils.helper import build_context
-from models.pothole import Pothole
+from models.report import Report
 from typing import Annotated
 from pydantic import BaseModel
 from models.enums import Severity, Status
@@ -116,14 +116,14 @@ async def create_report_endpoint(
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
-    pothole = Pothole(
+    report = Report(
         location=report.location,
         image_path=report.imgpath,
         description=report.desc,
         severity=report.severity,
     )
 
-    success = await create_report(request, pothole)
+    success = await create_report(request, report)
 
     if not success:
         pass  # Add some logic in here later

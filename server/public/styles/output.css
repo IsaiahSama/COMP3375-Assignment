@@ -416,9 +416,6 @@
   .bg-\[var\(--green-primary\)\] {
     background-color: var(--green-primary);
   }
-  .bg-\[var\(--red-primary\)\] {
-    background-color: var(--red-primary);
-  }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
@@ -567,13 +564,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--blue-secondary);
-      }
-    }
-  }
-  .hover\:bg-\[var\(--red-secondary\)\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--red-secondary);
       }
     }
   }
