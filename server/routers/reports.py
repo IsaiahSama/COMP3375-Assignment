@@ -37,8 +37,13 @@ async def reports_page(request: Request):
         report["image_path"] = report["image_path"].lstrip("./")
 
     return templates.TemplateResponse(
-        "reports/report.html", context={"request": request, "reports": reports}
+        "reports/reports.html", context={"request": request, "reports": reports}
     )
+
+
+@router.get("/{report_id}")
+async def view_report_page(request: Request, report_id: str):
+    pass
 
 
 @router.get("/edit")

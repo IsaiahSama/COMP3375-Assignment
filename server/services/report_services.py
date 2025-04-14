@@ -39,6 +39,9 @@ async def get_all_reports(request: Request) -> list[dict[str, str]]:
         await request.app.mongodb["Pothole"].find().to_list()
     )
 
+    for report in reports:
+        report["id"] = report["image_path"].split("_")[-1].split(".")[0]
+
     return reports
 
 
@@ -48,7 +51,7 @@ async def get_reports(request: Request) -> list[dict[str, str]]:
     if not user_email:
         return []
 
-    reports = await request.app.mongodb["Pothole"].find().to_list()
+    reports = await get_all_reports(request)
 
     user_reports = [report for report in reports if report["user_email"] == user_email]
 
