@@ -1,4 +1,4 @@
-from typing import Optional, Annotated
+from typing import Annotated
 from pydantic import BaseModel, Field
 from bson import ObjectId
 from .enums import Roles
@@ -12,4 +12,4 @@ class User(BaseModel):
     email: Annotated[str, Field(description="User email")]
     password: Annotated[str, Field(description="User password")]
     first_name: Annotated[str, Field(description="User first name")]
-    last_name: Annotated[Optional[str], Field(None, description="User last name")]
+    last_name: Annotated[str | None, Field(None, description="User last name")]

@@ -61,11 +61,11 @@ Reports
 
                 <div class="flex flex-col justify-between">
                     <div class="report line3">
-                        <p style="text-transform: capitalize" >{{ report['severity'] }}</p>
+                        <p style="text-transform: capitalize" >Severity: {{ report['severity'] }}</p>
                     </div>
 
                     <div class="report line1">
-                        <a href="/reports/{{report['display_id']}}">
+                        <a href="/reports/{{report['id']}}">
                             <button class="button px-5 py-1 bg-[var(--blue-secondary)] text-white rounded-sm md:block w-full">View Report</button>
                         </a>
                     </div>

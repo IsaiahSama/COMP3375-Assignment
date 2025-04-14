@@ -161,9 +161,7 @@ async def view_report_page(request: Request, report_id: str):
     if not reports:
         exists = False
 
-    selected_report = [
-        report for report in reports if report_id in report["image_path"]
-    ]
+    selected_report = [report for report in reports if report_id == report["id"]]
 
     if not selected_report:
         exists = False
