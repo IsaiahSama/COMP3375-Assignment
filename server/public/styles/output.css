@@ -196,6 +196,24 @@
   .static {
     position: static;
   }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
   .my-1 {
     margin-block: calc(var(--spacing) * 1);
   }
@@ -392,8 +410,14 @@
   .bg-\[var\(--blue-primary\)\] {
     background-color: var(--blue-primary);
   }
+  .bg-\[var\(--blue-secondary\)\] {
+    background-color: var(--blue-secondary);
+  }
   .bg-\[var\(--green-primary\)\] {
     background-color: var(--green-primary);
+  }
+  .bg-\[var\(--red-primary\)\] {
+    background-color: var(--red-primary);
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
@@ -543,6 +567,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--blue-secondary);
+      }
+    }
+  }
+  .hover\:bg-\[var\(--red-secondary\)\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--red-secondary);
       }
     }
   }

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Report
+{% endblock %}
+
+{% block styles %}
+
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% if error %}
+    <div class="text-red-500 text-sm font-semibold text-center">{{ error }}</div>
+{% endif %}
+
+{% if report %}
+<div class="container">
+
+    <div class="center-content">
+        
+        <img src="{{ url_for('static', path='/uploaded-images/'+report['image_path']) }}" alt="map" width="150"
+            height="150">
+
+        <div class="info-container">
+            <p>Location: {{ report['location'] }}</p>
+            <p style="text-transform: capitalize;">Status: {{ report['status'] }}</p>
+            <p>{{ report['date'] }}</p>
+
+            <p style="text-transform: capitalize" >{{ report['severity'] }}</p>
+        </div>
+
+        <div class="buttons">
+
+            <a href="/reports/create">
+                <button
+                    class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm hidden md:block hover:bg-[var(--blue-secondary)] hover:cursor-pointer ">Edit Report</button>
+            </a>
+            <a href="/reports/create">
+                <button
+                    class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm hidden md:block hover:bg-[var(--blue-secondary)] hover:cursor-pointer ">Delete Report</button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+{% endif %}
+{% endblock %}

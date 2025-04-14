@@ -10,6 +10,7 @@ from services.report_services import (
     get_reports,
 )
 from utils.session_manager import SessionUser
+from utils.helper import build_context
 from models.pothole import Pothole
 from typing import Annotated
 from pydantic import BaseModel
@@ -43,7 +44,35 @@ async def reports_page(request: Request):
 
 @router.get("/{report_id}")
 async def view_report_page(request: Request, report_id: str):
-    pass
+    if not (user := SessionUser.get_session_user(request)):
+        return RedirectResponse("/login", 302)
+
+    reports = await get_reports(request)
+
+    exists = True
+
+    if not reports:
+        exists = False
+
+    selected_report = [
+        report for report in reports if report_id in report["image_path"]
+    ]
+
+    if not selected_report:
+        exists = False
+
+    if not exists:
+        return templates.TemplateResponse(
+            "reports/report.html",
+            context=build_context(request, {"error": "Report could not be found"}),
+            status_code=404,
+        )
+
+    report = selected_report[0]
+
+    return templates.TemplateResponse(
+        "reports/report.html", context=build_context(request, {"report": report})
+    )
 
 
 @router.get("/edit")

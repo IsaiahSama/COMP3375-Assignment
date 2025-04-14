@@ -48,8 +48,7 @@ Reports
         <p class="text-center text-lg font-semibold text-gray-500 mt-8 pt-8">No Reports Found</p>
         {% endif %}
         {% for report in reports %}
-        <p>{{report}}</p>
-        <div class="report flex gap-5 min-w-full bg-gray-100 p-5 rounded-xl shadow min-h-[10vh]" hx-target="#mainSection" hx-get="/reports/{{report['id']}}">
+        <div class="report flex gap-5 min-w-full bg-gray-100 p-5 rounded-xl shadow min-h-[10vh]">
             <img src="{{ url_for('static', path='/uploaded-images/'+report['image_path']) }}" alt="map" width="50"
                 height="50">
 
@@ -66,7 +65,9 @@ Reports
                     </div>
 
                     <div class="report line1">
-                        <h2 style="text-transform: capitalize">{{ report['id'] }}</h2>
+                        <a href="/reports/{{report['id']}}">
+                            <button class="button px-5 py-1 bg-[var(--blue-secondary)] text-white rounded-sm md:block w-full">View Report</button>
+                        </a>
                     </div>
                 </div>
             </div>
