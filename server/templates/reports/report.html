@@ -31,16 +31,16 @@ Report
             <p style="text-transform: capitalize;">Status: {{ report['status'] }}</p>
             <p>{{ report['date'] }}</p>
 
-            <p style="text-transform: capitalize" >{{ report['severity'] }}</p>
+            <p style="text-transform: capitalize" >Severity: {{ report['severity'] }}</p>
         </div>
 
         <div class="buttons">
 
-            <a href="/reports/create">
+            <a href="/reports/edit/{{ report['id'] }}">
                 <button
                     class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm hidden md:block hover:bg-[var(--blue-secondary)] hover:cursor-pointer ">Edit Report</button>
             </a>
-            <a href="/reports/create">
+            <a href="/reports/delete/{{ report['id'] }}">
                 <button
                     class="button px-5 py-1 bg-[var(--blue-primary)] text-white rounded-sm hidden md:block hover:bg-[var(--blue-secondary)] hover:cursor-pointer ">Delete Report</button>
             </a>
