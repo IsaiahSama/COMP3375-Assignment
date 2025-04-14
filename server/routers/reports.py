@@ -2,13 +2,7 @@ from fastapi import APIRouter, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
-from services.report_services import (
-    create_report,
-    edit_report,
-    delete_report,
-    get_all_reports,
-    get_reports,
-)
+from services import report_services
 from services.session_manager_service import SessionUser
 from utils.helper import build_context
 from models.report import Report
@@ -30,9 +24,9 @@ async def reports_page(request: Request):
         return RedirectResponse("/login", 302)
 
     if user.role != "admin":
-        reports = await get_reports(request)
+        reports = await report_services.get_reports_by_email(request)
     else:
-        reports = await get_all_reports(request)
+        reports = await report_services.get_all_reports(request)
 
     for report in reports:
         report["image_path"] = report["image_path"].lstrip("./")
@@ -42,8 +36,8 @@ async def reports_page(request: Request):
     )
 
 
-@router.get("/edit")
-async def edit_report_page(request: Request):
+@router.get("/edit/{report_id}")
+async def edit_report_page(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
     return templates.TemplateResponse("reports/edit.html", context={"request": request})
@@ -58,8 +52,8 @@ async def create_report_page(request: Request):
     )
 
 
-@router.get("/delete")
-async def delete_report_page(request: Request):
+@router.get("/delete/{report_id}")
+async def delete_report_page(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
     return templates.TemplateResponse(
@@ -78,19 +72,19 @@ class ReportCreateForm(BaseModel):
 
 @router.post("/create")
 async def create_report_endpoint(
-    request: Request, report: Annotated[ReportCreateForm, Form()]
+    request: Request, body: Annotated[ReportCreateForm, Form()]
 ):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
     report = Report(
-        location=report.location,
-        image_path=report.imgpath,
-        description=report.desc,
-        severity=report.severity,
+        location=body.location,
+        image_path=body.imgpath,
+        description=body.desc,
+        severity=body.severity,
     )
 
-    success = await create_report(request, report)
+    success = await report_services.create_report(request, report)
 
     if not success:
         pass  # Add some logic in here later
@@ -112,7 +106,7 @@ async def edit_report_endpoint(
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
-    await edit_report(request, report)
+    await report_services.edit_report(request, report)
 
 
 @router.delete("/delete/{report_id}")
@@ -120,7 +114,7 @@ async def delete_report_endpoint(request: Request, report_id: int):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
-    await delete_report(request, report_id)
+    await report_services.delete_report(request, report_id)
 
 
 @router.post("/image-upload")
@@ -154,7 +148,7 @@ async def view_report_page(request: Request, report_id: str):
     if not (user := SessionUser.get_session_user(request)):
         return RedirectResponse("/login", 302)
 
-    reports = await get_reports(request)
+    reports = await report_services.get_reports_by_email(request)
 
     exists = True
 

@@ -15,6 +15,7 @@ async def create_report(request: Request, report: Report) -> bool:
     )  # get_user_email_from_session()
 
     dumped_model["user_email"] = user_email
+    dumped_model["display_id"] = dumped_model["id"][:5]
 
     await request.app.mongodb[Collections.REPORT.value].insert_one(dumped_model)
 
@@ -39,20 +40,23 @@ async def get_all_reports(request: Request) -> list[dict[str, str]]:
         await request.app.mongodb[Collections.REPORT.value].find().to_list()
     )
 
-    for report in reports:
-        report["display_id"] = report["id"][:5]
-
     return reports
 
 
-async def get_reports(request: Request) -> list[dict[str, str]]:
+async def get_reports_by_email(request: Request) -> list[dict[str, str]]:
     user_email = request.session.get("user", {}).get("email", None)
 
     if not user_email:
         return []
 
-    reports = await get_all_reports(request)
-
-    user_reports = [report for report in reports if report["user_email"] == user_email]
+    user_reports = (
+        await request.app.mongodb[Collections.REPORT.value]
+        .find({"user_email": user_email})
+        .to_list()
+    )
 
     return user_reports
+
+
+async def get_report_by_id(request: Request, report_id: str) -> dict[str, str] | None:
+    return request.app.mongodb[Collections.REPORT.value].find_one({"id": report_id})
