@@ -13,6 +13,7 @@ from fastapi_tailwind import tailwind
 from os import path
 
 from routers import htmx, reports, users
+from utils import config
 
 secret = secrets.token_hex(32)
 
