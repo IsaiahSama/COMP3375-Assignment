@@ -1,7 +1,7 @@
 from fastapi import Request
 from models.users import User
 from password_validator import PasswordValidator
-from utils.session_manager import SessionUser
+from services.session_manager_service import SessionUser
 
 from passlib.context import CryptContext
 

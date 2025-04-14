@@ -9,7 +9,7 @@ from services.report_services import (
     get_all_reports,
     get_reports,
 )
-from utils.session_manager import SessionUser
+from services.session_manager_service import SessionUser
 from utils.helper import build_context
 from models.report import Report
 from typing import Annotated

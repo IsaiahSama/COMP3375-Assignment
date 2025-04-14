@@ -5,7 +5,7 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from models.users import User
 from services import user_services
-from utils.session_manager import SessionUser
+from services.session_manager_service import SessionUser
 from utils.helper import build_context
 
 templates = Jinja2Templates(directory="templates")
