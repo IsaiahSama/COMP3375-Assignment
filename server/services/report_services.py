@@ -1,7 +1,6 @@
-from typing import List
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
-from server.models.pothole import Pothole
+from models.pothole import Pothole
 
 
 async def create_report(request: Request, report: Pothole) -> bool:
@@ -35,17 +34,22 @@ async def delete_report(request: Request, report: int) -> bool:
     return success
 
 
-async def get_all_reports(request: Request) -> List[Pothole]:
-    reports = await request.app.mongodb["Pothole"].find().to_list()
+async def get_all_reports(request: Request) -> list[dict[str, str]]:
+    reports: list[dict[str, str]] = (
+        await request.app.mongodb["Pothole"].find().to_list()
+    )
 
     return reports
 
 
-async def get_reports(request: Request) -> List[Pothole]:
+async def get_reports(request: Request) -> list[dict[str, str]]:
     user_email = request.session.get("user", {}).get("email", None)
 
+    if not user_email:
+        return []
+
     reports = await request.app.mongodb["Pothole"].find().to_list()
-    
+
     user_reports = [report for report in reports if report["user_email"] == user_email]
 
     return user_reports

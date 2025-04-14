@@ -12,14 +12,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi_tailwind import tailwind
 from os import path
 
-
-try:
-    from .routers import htmx, users, reports
-    from .config import config
-except ImportError:
-    from routers import htmx, users, reports
-    from config import config
-
+from routers import htmx, reports, users
 
 secret = secrets.token_hex(32)
 

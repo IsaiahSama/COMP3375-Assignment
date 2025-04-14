@@ -2,17 +2,17 @@ from fastapi import APIRouter, Request, Form, UploadFile, File
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
-from server.services.report_services import (
+from services.report_services import (
     create_report,
     edit_report,
     delete_report,
     get_all_reports,
-    get_reports
+    get_reports,
 )
-from server.models.pothole import Pothole
+from models.pothole import Pothole
 from typing import Annotated
 from pydantic import BaseModel
-from server.models.enums import Severity, Status
+from models.enums import Severity, Status
 
 import uuid
 
@@ -23,11 +23,10 @@ templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
 async def reports_page(request: Request):
-    
     user = request.session.get("user")
     if not user:
         return RedirectResponse("/login")
-    
+
     if user["role"] != "admin":
         reports = await get_reports(request)
     else:
@@ -81,8 +80,7 @@ async def create_report_endpoint(
 ):
     if not request.session.get("user"):
         return RedirectResponse("/login")
-    """Create a new report."""
-    # Assuming report is a JSON string that can be converted to a Pothole object
+
     pothole = Pothole(
         location=report.location,
         image_path=report.imgpath,
@@ -90,7 +88,11 @@ async def create_report_endpoint(
         severity=report.severity,
     )
 
-    await create_report(request, pothole)
+    success = await create_report(request, pothole)
+
+    if not success:
+        pass  # Add some logic in here later
+
     return HTMLResponse(content=f"Report {report} created!", status_code=201)
 
 
@@ -107,14 +109,16 @@ async def edit_report_endpoint(
 ):
     if not request.session.get("user"):
         return RedirectResponse("/login")
-    edit_report(request, report)
+
+    await edit_report(request, report)
 
 
 @router.delete("/delete/{report_id}")
 async def delete_report_endpoint(request: Request, report_id: int):
     if not request.session.get("user"):
         return RedirectResponse("/login")
-    delete_report(request, report_id)
+
+    await delete_report(request, report_id)
 
 
 @router.post("/image-upload")
@@ -122,6 +126,7 @@ async def report_image_upload(request: Request, image: UploadFile = File(...)):
     """This is the route to access the image upload form."""
     if not request.session.get("user"):
         return RedirectResponse("/login")
+
     path = ""
     filename = ""
     if image.file and image.filename:
@@ -132,7 +137,9 @@ async def report_image_upload(request: Request, image: UploadFile = File(...)):
             _ = fp.write(await image.read())
 
     if path == "":
-        return RedirectResponse("/")
+        return RedirectResponse(
+            "/"
+        )  # This should return an error code for Missing fields
 
     return templates.TemplateResponse(
         "components/location_upload.html",

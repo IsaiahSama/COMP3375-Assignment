@@ -1,4 +1,4 @@
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 from os import getenv
 
 env_loaded = load_dotenv()
@@ -21,7 +21,7 @@ class Configuration:
         self.mongo_db_name = getenv("MONGO_DB_NAME")
 
         if not all([self.password, self.username, self.mongo_uri, self.mongo_db_name]):
-            raise SystemError(f"Could not get all values from dotenv")
+            raise SystemError("Could not get all values from dotenv")
 
 
 config = Configuration()

@@ -1,83 +1,85 @@
 from fastapi import Request
-from server.models.users import User
+from models.users import User
 from password_validator import PasswordValidator
+from utils.session_manager import SessionUser
 
 from passlib.context import CryptContext
 
 from fastapi.encoders import jsonable_encoder
 
 schema = PasswordValidator()
-schema.min(8).max(
-    20
-).has().uppercase().has().lowercase().has().digits().has().symbols().has().no().spaces()
-
-user_validation = {}
+_ = (
+    schema.min(8)
+    .max(20)
+    .has()
+    .uppercase()
+    .has()
+    .lowercase()
+    .has()
+    .digits()
+    .has()
+    .symbols()
+    .has()
+    .no()
+    .spaces()
+)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-async def get_user(regUser):
+async def get_user(request: Request, userEmail: str) -> dict[str, str] | None:
     """Get user by email."""
-    user = await regUser.app.mongodb["Users"].find_one({"email": regUser.email})
-    if user:
-        return user
-    else:
+
+    user: dict[str, str] | None = await request.app.mongodb["Users"].find_one(
+        {"email": userEmail}
+    )
+
+    return user
+
+
+async def user_login(request: Request, user: dict[str, str]) -> SessionUser | None:
+    user_details: dict[str, str] | None = await request.app.mongodb["Users"].find_one(
+        {"email": user["email"]}
+    )
+
+    if not user_details:
         return None
 
+    session_user = SessionUser(
+        user_details["email"],
+        user_details["first_name"],
+        user_details["last_name"],
+        user_details["role"],
+    )
 
-async def user_login(user, request: Request):
-    user_check = await request.app.mongodb["Users"].find_one({"email": user["email"]})
-    if user_check:
-        user_return = {
-            "email": user_check["email"],
-            "first_name": user_check["first_name"],
-            "last_name": user_check["last_name"],
-            "role": user_check["role"],
-        }
-        if (
-            pwd_context.verify(user["password"], user_check["password"])
-            and user_check["email"] == user["email"]
-        ):
-            return user_return
-        else:
-            return None
-    else:
-        return None
+    if (
+        pwd_context.verify(user["password"], user_details["password"])
+        and user_details["email"] == user["email"]
+    ):
+        return session_user
+
+    return None
 
 
-async def create_user(user: User, request: Request):
+async def valid_new_email(request: Request, userEmail: str) -> bool:
+    existing_user = await request.app.mongodb["Users"].find_one({"email": userEmail})
+
+    return not bool(existing_user)
+
+
+async def create_user(request: Request, user: User) -> bool:
+    hashed_password = pwd_context.hash(user.password)
+    user.password = hashed_password
+
     user_JSON = jsonable_encoder(user)
 
-    exisiting_user = await request.app.mongodb["Users"].find_one({"email": user.email})
-    if exisiting_user:
-        user_validation["valid_email"] = False
-    else:
-        user_validation["valid_email"] = True
+    await request.app.mongodb["Users"].insert_one(user_JSON)
 
-    if not schema.validate(user.password):
-        user_validation["valid_pass"] = False
-    else:
-        user_validation["valid_pass"] = True
+    new_user: dict[str, str] | None = await request.app.mongodb["Users"].find_one(
+        {"email": user.email}
+    )
 
-    if not user_validation.get("valid_pass", True) or not user_validation.get(
-        "valid_email", True
-    ):
-        return user_validation
-
-    else:
-        hashed_password = pwd_context.hash(user.password)
-        user.password = hashed_password
-        user_JSON = jsonable_encoder(user)
-        await request.app.mongodb["Users"].insert_one(user_JSON)
-        new_user = await request.app.mongodb["Users"].find_one({"email": user.email})
-        logged_in_user = {
-            "email": new_user["email"],
-            "first_name": new_user["first_name"],
-            "last_name": new_user["last_name"],
-            "role": new_user["role"],
-        }
-        request.session["user"] = logged_in_user
-        return user_validation
+    return bool(new_user)
 
 
 async def update_user(user_id: int, user: User):

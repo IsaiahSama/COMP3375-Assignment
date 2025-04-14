@@ -2,10 +2,7 @@ import uuid
 from typing import Optional, Annotated
 from pydantic import BaseModel, Field
 
-try:
-    from .enums import Status, Severity
-except ImportError:
-    from enums import Status, Severity
+from .enums import Status, Severity
 
 
 class Pothole(BaseModel):
