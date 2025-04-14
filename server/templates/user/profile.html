@@ -11,10 +11,10 @@ Profile
         <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
         <div id="nameInfo">
             {% if user %}
-                <h1 class="text-2xl font-bold">{{user["first_name"]}} {{user["last_name"]}}</h1>
-                {%if user["role"] == "admin" %}
+                <h1 class="text-2xl font-bold">{{user.firstname}} {{user.lastname}}</h1>
+                {%if user.role == "admin" %}
                     <p class="text-lg">Admin</p>
-                {% elif user["role"] == "user" %}
+                {% elif user.role == "user" %}
                     <p class="text-lg">Pothole Patroler</p>
                 {% endif %}
             {% endif %}
