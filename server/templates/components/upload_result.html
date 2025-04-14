@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ url_for('static', path='/styles/output.css') }}">
-        <title>COMP3375 Assignment 2 - Success</title>
-  </head>
-  <body>
-       <div class="flex flex-col items-center justify-center mt-5 p-8 min-h-screen">
-           <div class="flex flex-col items-center justify-center lg:min-w-[50vw] md:min-w-[75vw] min-w-[90vw] min-h-[70vh] md:min-h-[60vh] bg-gray-100 shadow rounded-xl p-8">
-                <h2 class="md:text-4xl text-2xl font-bold mb-2">{{ result }}</h2>
+<div class="flex flex-col items-center justify-center mt-5 p-8 min-h-screen">
+   <div class="flex flex-col items-center justify-center lg:min-w-[50vw] md:min-w-[75vw] min-w-[90vw] min-h-[70vh] md:min-h-[60vh] bg-gray-100 shadow rounded-xl p-8">
+        <h2 class="md:text-4xl text-2xl font-bold mb-2">{{ result }}</h2>
 
-                <img src="{{ url_for('static', path='/images/logo.png') }}" alt="" width="200" height="200" style="object-fit: contain"/>
+        <img src="{{ url_for('static', path='/images/logo.png') }}" alt="" width="200" height="200" style="object-fit: contain"/>
 
-                <p class="mt-5">{{ message }}</p>
+        <p class="mt-5">{{ message }}</p>
 
-                <p class="mt-2">
-                    Go to <a href="/reports" class="text-[var(--blue-primary)]">My Reports</a> to view important status changes.
-                </p>
+        <p class="mt-2">
+            Go to <a href="/reports" class="text-[var(--blue-primary)]">My Reports</a> to view important status changes.
+        </p>
 
-                <button onclick="window.location.href='/'" class="bg-[var(--green-primary)] text-white px-5 py-1 rounded-sm mt-8">
-                    Return Home
-                </button>
-           </div>
-       </div>
-  </body>
-</html>
+        <button onclick="window.location.href='/reports'" class="bg-[var(--green-primary)] text-white px-5 py-1 rounded-sm mt-8">
+            View Reports
+        </button>
+        <button onclick="window.location.href='/reports/create'" class="bg-[var(--green-primary)] text-white px-5 py-1 rounded-sm mt-8">
+            Report another Pothole
+        </button>
+   </div>
+</div>
