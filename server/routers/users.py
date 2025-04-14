@@ -92,12 +92,20 @@ async def register(request: Request, body: Annotated[RegisterForm, Form()]):
 
     return_page = "user/register.html"
 
-    valid_email = await user_services.valid_new_email(request, user.email)
+    email_exists = await user_services.email_exists(request, user.email)
 
-    if not valid_email:
+    if email_exists:
         return templates.TemplateResponse(
             return_page,
             context=build_context(request, {"error": "This email is already taken"}),
+        )
+
+    error_info: dict[str, str] = await user_services.validate_new_info(user)
+
+    if "error" in error_info and error_info["error"] != "":
+        return templates.TemplateResponse(
+            return_page,
+            context=build_context(request, {"error": error_info["error"]}),
         )
 
     success = await user_services.create_user(request, user)

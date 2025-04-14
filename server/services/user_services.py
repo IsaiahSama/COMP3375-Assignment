@@ -61,10 +61,27 @@ async def user_login(request: Request, user: dict[str, str]) -> SessionUser | No
     return None
 
 
-async def valid_new_email(request: Request, userEmail: str) -> bool:
+async def email_exists(request: Request, userEmail: str) -> bool:
     existing_user = await request.app.mongodb["Users"].find_one({"email": userEmail})
 
-    return not bool(existing_user)
+    return bool(existing_user)
+
+
+async def validate_new_info(user: User) -> dict[str, str]:
+    results = {"error": ""}
+
+    # Check First Name
+
+    # Check Last Name
+
+    # Check Email
+
+    # Check Password Strength
+
+    if len(user.password) < 8:
+        results["error"] = "Password must be greater than 8 characters"
+
+    return results
 
 
 async def create_user(request: Request, user: User) -> bool:
