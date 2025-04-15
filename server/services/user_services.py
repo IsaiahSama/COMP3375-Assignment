@@ -31,9 +31,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 async def get_user(request: Request, userEmail: str) -> dict[str, str] | None:
     """Get user by email."""
 
-    user: dict[str, str] | None = await request.app.mongodb[Collections.USER.value].find_one(
-        {"email": userEmail}
-    )
+    user: dict[str, str] | None = await request.app.mongodb[
+        Collections.USER.value
+    ].find_one({"email": userEmail})
 
     return user
 
@@ -73,11 +73,20 @@ async def email_exists(request: Request, userEmail: str) -> bool:
 async def validate_new_info(user: User) -> dict[str, str]:
     results = {"error": ""}
 
+    user.first_name = user.first_name.strip()
+    user.last_name = user.last_name and user.last_name.strip() or ""
+
     # Check First Name
+    if not user.first_name.isalpha():
+        results["error"] = "First name should only consist of letters."
 
     # Check Last Name
+    if user.last_name and not user.last_name.isalpha():
+        results["error"] = "Last name should only consist of letters."
 
     # Check Email
+    if "@" not in user.email:
+        results["error"] = "Expected an @ in the email"
 
     # Check Password Strength
 
