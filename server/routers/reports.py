@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
 from services import report_services
+from services.report_services import ReportTemplate
 from services.session_manager_service import SessionUser
 from utils.helper import build_context
 from models.report import Report
@@ -36,13 +37,6 @@ async def reports_page(request: Request):
     )
 
 
-@router.get("/edit/{report_id}")
-async def edit_report_page(request: Request, report_id: str):
-    if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
-    return templates.TemplateResponse("reports/edit.html", context={"request": request})
-
-
 @router.get("/create")
 async def create_report_page(request: Request):
     if not SessionUser.get_session_user(request):
@@ -52,10 +46,36 @@ async def create_report_page(request: Request):
     )
 
 
+@router.get("/edit/{report_id}")
+async def edit_report_page(request: Request, report_id: str):
+    if not SessionUser.get_session_user(request):
+        return RedirectResponse("/login", 302)
+
+    report = await report_services.get_report_by_id(request, report_id)
+
+    if not report:
+        return templates.TemplateResponse(
+            "reports/edit.html",
+            context=build_context(request, {"error": "This report could not be found"}),
+        )
+
+    return templates.TemplateResponse(
+        "reports/edit.html", context=build_context(request, {"report": report})
+    )
+
+
 @router.get("/delete/{report_id}")
 async def delete_report_page(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
+
+    report = await report_services.get_report_by_id(request, report_id)
+    if not report:
+        return templates.TemplateResponse(
+            "reports/delete.html",
+            context=build_context(request, {"error": "This report could not be found"}),
+        )
+
     return templates.TemplateResponse(
         "reports/delete.html", context={"request": request}
     )
@@ -92,21 +112,31 @@ async def create_report_endpoint(
     return HTMLResponse(content=f"Report {report} created!", status_code=201)
 
 
-class ReportEditForm(BaseModel):
+class ReportEditForm(ReportTemplate):
+    id: str
     location: str
-    desc: str
+    description: str
     severity: Severity
     status: Status
 
 
-@router.put("/edit")
+@router.post("/edit")
 async def edit_report_endpoint(
     request: Request, report: Annotated[ReportEditForm, Form()]
 ):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
-    await report_services.edit_report(request, report)
+    result = await report_services.edit_report(request, report)
+
+    if not result:
+        return templates.TemplateResponse(
+            "report/edit.html",
+            context=build_context(request, {"error": "Could not perform operation"}),
+            status_code=400,
+        )
+
+    return RedirectResponse("/reports", 302)
 
 
 @router.delete("/delete/{report_id}")

@@ -1,7 +1,17 @@
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
+from models.enums import Severity, Status
 from models.report import Report
 from .db_collections import Collections
+
+
+class ReportTemplate(BaseModel):
+    id: str
+    location: str
+    description: str
+    severity: Severity
+    status: Status
 
 
 async def create_report(request: Request, report: Report) -> bool:
@@ -22,9 +32,22 @@ async def create_report(request: Request, report: Report) -> bool:
     return success
 
 
-async def edit_report(request: Request, report: Report) -> bool:
+async def edit_report(request: Request, report: ReportTemplate) -> bool:
     """Edit an existing report."""
     success = True
+
+    # Determine later if this person has permission to edit this resource.
+
+    to_update = {
+        "location": report.location,
+        "description": report.description,
+        "severity": report.severity.value,
+        "status": report.status.value,
+    }
+
+    await request.app.mongodb[Collections.REPORT.value].update_one(
+        {"id": report.id}, {"$set": to_update}
+    )
 
     return success
 
@@ -59,4 +82,6 @@ async def get_reports_by_email(request: Request) -> list[dict[str, str]]:
 
 
 async def get_report_by_id(request: Request, report_id: str) -> dict[str, str] | None:
-    return request.app.mongodb[Collections.REPORT.value].find_one({"id": report_id})
+    return await request.app.mongodb[Collections.REPORT.value].find_one(
+        {"id": report_id}
+    )
