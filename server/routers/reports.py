@@ -22,7 +22,7 @@ templates = Jinja2Templates(directory="templates")
 async def reports_page(request: Request):
     user = SessionUser.get_session_user(request)
     if not user:
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     if user.role != "admin":
         reports = await report_services.get_reports_by_email(request)
@@ -40,7 +40,7 @@ async def reports_page(request: Request):
 @router.get("/create")
 async def create_report_page(request: Request):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
     return templates.TemplateResponse(
         "reports/create.html", context={"request": request}
     )
@@ -49,7 +49,7 @@ async def create_report_page(request: Request):
 @router.get("/edit/{report_id}")
 async def edit_report_page(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     report = await report_services.get_report_by_id(request, report_id)
 
@@ -68,7 +68,7 @@ async def edit_report_page(request: Request, report_id: str):
 @router.get("/delete/{report_id}")
 async def delete_report_page(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     report = await report_services.get_report_by_id(request, report_id)
     if not report:
@@ -97,7 +97,7 @@ async def create_report_endpoint(
     request: Request, body: Annotated[ReportCreateForm, Form()]
 ):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     report = Report(
         location=body.location,
@@ -127,7 +127,7 @@ async def edit_report_endpoint(
     request: Request, report: Annotated[ReportEditForm, Form()]
 ):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     result = await report_services.edit_report(request, report)
 
@@ -138,13 +138,13 @@ async def edit_report_endpoint(
             status_code=400,
         )
 
-    return RedirectResponse("/reports", 302)
+    return RedirectResponse("/reports", 303)
 
 
 @router.post("/delete/{report_id}")
 async def delete_report_endpoint(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     result = await report_services.delete_report(request, report_id)
 
@@ -155,14 +155,14 @@ async def delete_report_endpoint(request: Request, report_id: str):
             status_code=400,
         )
 
-    return RedirectResponse("/reports", 302)
+    return RedirectResponse("/reports", 303)
 
 
 @router.post("/image-upload")
 async def report_image_upload(request: Request, image: UploadFile = File(...)):
     """This is the route to access the image upload form."""
     if not SessionUser.get_session_user(request):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     path = ""
     filename = ""
@@ -175,7 +175,7 @@ async def report_image_upload(request: Request, image: UploadFile = File(...)):
 
     if path == "":
         return RedirectResponse(
-            "/", 302
+            "/", 303
         )  # This should return an error code for Missing fields
 
     return templates.TemplateResponse(
@@ -187,7 +187,7 @@ async def report_image_upload(request: Request, image: UploadFile = File(...)):
 @router.get("/{report_id}")
 async def view_report_page(request: Request, report_id: str):
     if not (user := SessionUser.get_session_user(request)):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     reports = await report_services.get_reports_by_email(request)
 

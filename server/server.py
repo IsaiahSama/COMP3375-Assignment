@@ -77,7 +77,7 @@ app.include_router(reports.router)
 @app.get("/")
 async def root(request: Request):
     if not request.session.get("user"):
-        return RedirectResponse("/login", 302)
+        return RedirectResponse("/login", 303)
 
     stats = await get_report_stats(request)
     return templates.TemplateResponse(
