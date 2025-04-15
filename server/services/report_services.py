@@ -52,9 +52,15 @@ async def edit_report(request: Request, report: ReportTemplate) -> bool:
     return success
 
 
-async def delete_report(request: Request, report: int) -> bool:
+async def delete_report(request: Request, report_id: str) -> bool:
     """Delete a report."""
     success = True
+
+    # Again... Ideally, you'd want to perform some auth checks
+    # Only people that should be able to modify a report is an admin and the original poster.
+
+    await request.app.mongodb[Collections.REPORT.value].delete_one({"id": report_id})
+
     return success
 
 

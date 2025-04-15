@@ -57,6 +57,7 @@ async def edit_report_page(request: Request, report_id: str):
         return templates.TemplateResponse(
             "reports/edit.html",
             context=build_context(request, {"error": "This report could not be found"}),
+            status_code=404,
         )
 
     return templates.TemplateResponse(
@@ -74,10 +75,11 @@ async def delete_report_page(request: Request, report_id: str):
         return templates.TemplateResponse(
             "reports/delete.html",
             context=build_context(request, {"error": "This report could not be found"}),
+            status_code=404,
         )
 
     return templates.TemplateResponse(
-        "reports/delete.html", context={"request": request}
+        "reports/delete.html", context={"request": request, "report": report}
     )
 
 
@@ -139,12 +141,21 @@ async def edit_report_endpoint(
     return RedirectResponse("/reports", 302)
 
 
-@router.delete("/delete/{report_id}")
-async def delete_report_endpoint(request: Request, report_id: int):
+@router.post("/delete/{report_id}")
+async def delete_report_endpoint(request: Request, report_id: str):
     if not SessionUser.get_session_user(request):
         return RedirectResponse("/login", 302)
 
-    await report_services.delete_report(request, report_id)
+    result = await report_services.delete_report(request, report_id)
+
+    if not result:
+        return templates.TemplateResponse(
+            "report/reports.html",
+            context=build_context(request, {"error": "Could not perform operation"}),
+            status_code=400,
+        )
+
+    return RedirectResponse("/reports", 302)
 
 
 @router.post("/image-upload")

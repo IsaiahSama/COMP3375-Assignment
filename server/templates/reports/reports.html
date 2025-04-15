@@ -40,6 +40,9 @@ Reports
                 Report</button>
         </a>
     </div>
+    {% if error %}
+        <div class="text-red-500 text-sm font-semibold text-center">{{ error }}</div>
+    {% endif %}
 
     <div id="searchBar" class="flex w-full justify-between">
         <!-- Once route is defined, add the hx-get for the report filter -->
