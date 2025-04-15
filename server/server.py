@@ -13,6 +13,7 @@ from fastapi_tailwind import tailwind
 from os import path
 
 from routers import htmx, reports, users
+from services.report_services import get_report_stats
 from utils import config
 
 secret = secrets.token_hex(32)
@@ -77,7 +78,11 @@ app.include_router(reports.router)
 async def root(request: Request):
     if not request.session.get("user"):
         return RedirectResponse("/login", 302)
-    return templates.TemplateResponse("index.html", context={"request": request})
+
+    stats = await get_report_stats(request)
+    return templates.TemplateResponse(
+        "index.html", context={"request": request, "stats": stats}
+    )
 
 
 if __name__ == "__main__":

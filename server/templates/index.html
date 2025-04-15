@@ -27,10 +27,33 @@ Dashboard
                 {% endif %}
             </div>
         </div>
+
+        {% if stats %}
+
+        <table class="w-full border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="py-2 px-4 border text-left text-gray-600">Statistic</th>
+                    <th class="py-2 px-4 border text-left text-gray-600">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in stats.items() %}
+                <tr>
+                    <td class="py-2 px-4 border">{{ key }}</td>
+                    <td class="py-2 px-4 border">{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
+
         
-        <div id="mapContainer" class="flex h-[70vh] w-full justify-center rounded-xl bg-[var(--blue-accent)]">
+<!--        <div id="mapContainer" class="flex h-[70vh] w-full justify-center rounded-xl bg-[var(--blue-accent)]">
             <img src="{{ url_for('static', path='/images/map.png') }}" alt="map" style="object-fit: contain" height="100%" width="100%">
         </div>
+-->
     </div>
 </div>
 

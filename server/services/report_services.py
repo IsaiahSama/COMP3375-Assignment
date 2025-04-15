@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from models.enums import Severity, Status
 from models.report import Report
+from services.user_services import get_user
 from .db_collections import Collections
 
 
@@ -12,6 +13,43 @@ class ReportTemplate(BaseModel):
     description: str
     severity: Severity
     status: Status
+
+
+async def get_report_stats(request: Request) -> dict[str, str | int]:
+    stats = {
+        "Total Reports": 0,
+        "In Progress": 0,
+        "Completed": 0,
+        "Biggest Contributor": "",
+    }
+
+    reports = await get_all_reports(request)
+
+    stats["Total Reports"] = len(reports)
+    stats["In Progress"] = len(
+        [report for report in reports if report["status"] == Status.IN_PROGRESS.value]
+    )
+    stats["Completed"] = len(
+        [report for report in reports if report["status"] == Status.COMPLETE.value]
+    )
+
+    contributors: dict[str, int] = {}
+
+    for report in reports:
+        contributors.setdefault(report["user_email"], 0)
+        contributors[report["user_email"]] += 1
+
+    biggest_contributor = "???"
+
+    if contributors:
+        biggest_contributor_email = max(contributors, key=lambda x: contributors[x])
+        user = await get_user(request, biggest_contributor_email)
+        if user:
+            biggest_contributor = user["first_name"]
+
+    stats["Biggest Contributor"] = biggest_contributor
+
+    return stats
 
 
 async def create_report(request: Request, report: Report) -> bool:
