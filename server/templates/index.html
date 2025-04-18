@@ -18,11 +18,11 @@ Dashboard
             <div class="flex">
                 {% if request.session.get("user") and request.session.get("user").get("role") == "admin" %}
                     <a href="/reports">
-                        <button class="button px-4 py-1 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm">View Reports</button>
+                        <button class="button px-4 py-1 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm" id = "reportButton">View Reports</button>
                     </a>
                     {% else %}
                     <a href="/reports/create">
-                        <button class="button px-4 py-1 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm">New Report</button> 
+                        <button class="button px-4 py-1 bg-[var(--blue-primary)] hover:bg-[var(--blue-secondary)] hover:cursor-pointer text-white rounded-sm" id = "reportButton">New Report</button> 
                         </a>
                 {% endif %}
             </div>

@@ -9,13 +9,13 @@ Profile
 <div id="nameBar" class="flex justify-between items-center w-full bg-[var(--blue-primary)] min-h-[10vh] p-8 mb-4">
     <div id="infoContainer" class="flex items-center gap-5 text-white md:ml-8 md:pl-8">
         <img src="https://api.dicebear.com/9.x/big-smile/svg" alt="avatar" width="50" height="50" />
-        <div id="nameInfo">
+        <div id="nameInfo"> 
             {% if user %}
-                <h1 class="text-2xl font-bold">{{user.firstname}} {{user.lastname}}</h1>
+                <h1 class="text-2xl font-bold" id="name">{{user.firstname}} {{user.lastname}}</h1>
                 {%if user.role == "admin" %}
-                    <p class="text-lg">Admin</p>
+                    <p class="text-lg" id="role">Admin</p>
                 {% elif user.role == "user" %}
-                    <p class="text-lg">Pothole Patroler</p>
+                    <p class="text-lg" id="role">Pothole Patroler</p>
                 {% endif %}
             {% endif %}
         </div>
