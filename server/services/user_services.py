@@ -78,11 +78,11 @@ async def validate_new_info(user: User) -> dict[str, str]:
     # Check Last Name
 
     # Check Email
-
+    
     # Check Password Strength
 
-    if len(user.password) < 8:
-        results["error"] = "Password must be greater than 8 characters"
+    if not schema.validate(user.password):
+        results["error"] = "Password is not strong enough"
 
     return results
 

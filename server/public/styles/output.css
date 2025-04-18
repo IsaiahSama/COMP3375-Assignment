@@ -398,9 +398,6 @@
     --tw-border-style: none;
     border-style: none;
   }
-  .border-\[var\(--blue-primary\)\] {
-    border-color: var(--blue-primary);
-  }
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
@@ -567,13 +564,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--blue-secondary);
-      }
-    }
-  }
-  .hover\:bg-gray-100 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-gray-100);
       }
     }
   }
